@@ -4,6 +4,7 @@ services:
     app:
         build: .
         restart: unless-stopped
+        container_name: dinacom24-app-container
         volumes:
             - .:/var/www
         networks:
@@ -13,8 +14,8 @@ services:
 
     database:
         image: mysql:latest
-        container_name: mysql-container
-        restart: unless-stopped
+        container_name: dinacom24-mysql-container
+        restart: always
         environment:
             MYSQL_DATABASE: dinacom24
             MYSQL_USER: dinacom24
@@ -22,12 +23,13 @@ services:
             MYSQL_ROOT_PASSWORD: dinacom24
         volumes:
             - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+            - mysql_data:/var/lib/mysql
         networks:
             - app-network
 
     nginx:
         image: nginx:latest
-        container_name: nginx-container
+        container_name: dinacom24-nginx-container
         restart: always
         ports:
             - "9090:80"
@@ -42,3 +44,5 @@ services:
 networks:
     app-network:
         driver: bridge
+volumes:
+    mysql_data:

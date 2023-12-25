@@ -31,28 +31,21 @@ RUN pecl install xdebug \
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
 # Copy application files and change ownership
-COPY --chown=www-data:www-data . /var/www/
-RUN chown -R www-data:www-data /var/www
+COPY --chown=www:www . /var/www/
+RUN chown -R www:www /var/www
 
 WORKDIR /var/www
-
-# Install dependencies
-RUN composer install --no-scripts --no-dev --no-autoloader && \
-    composer dump-autoload --optimize
-
-RUN php artisan key:generate --ansi
-
-RUN php artisan storage:link
 
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 
 RUN apt-get install nodejs -y
 
-RUN npm install
-RUN npm run build
-
-USER www-data
+USER www
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
