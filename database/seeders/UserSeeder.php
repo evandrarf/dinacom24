@@ -22,6 +22,6 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => Hash::make('rahasia123')
         ]);
-        $admin->assignRole('superadmin');
+        $admin->assignRole('Super Admin');
     }
 }

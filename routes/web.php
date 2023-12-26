@@ -27,10 +27,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::controller(LoginController::class)->prefix('auth')->name('auth.')->group(function () {
         Route::get('/login', 'showLoginForm')->name('login-form');
         Route::post('/login', 'login')->name('login');
-        Route::get('/logout', 'logout')->name('logout')->middleware('auth');
+        Route::post('/logout', 'logout')->name('logout')->middleware('auth');
     });
 
     Route::middleware('auth')->group(function () {
         require __DIR__ . '/admin/dashboard.php';
+        require __DIR__ . '/admin/resident.php';
     });
 });

@@ -7,5 +7,5 @@ export default {
 import AdminDashboardLayout from "@/layouts/AdminDashboardLayout.vue";
 </script>
 <template>
-    <div>Dashboard</div>
+    <div>Resident</div>
 </template>

@@ -32,7 +32,6 @@ const login = () => {
             window.location.reload();
         })
         .catch((error) => {
-            console.log(error);
             notify(
                 {
                     type: "error",

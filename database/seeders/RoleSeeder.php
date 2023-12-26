@@ -19,11 +19,11 @@ class RoleSeeder extends Seeder
 
         $data = [
             [
-                'name' => 'superadmin',
+                'name' => 'Super Admin',
                 'permissions' => $full_permissions
             ],
             [
-                'name' => 'user',
+                'name' => 'Admin',
                 'permissions' => ['view_general_dashboard']
             ]
         ];
