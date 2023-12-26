@@ -40,10 +40,10 @@ const props = defineProps({
                 leave-to-class="translate-y-1 opacity-0"
             >
                 <PopoverPanel
-                    class="absolute left-1/2 z-10 mt-3 w-max -translate-x-3/4 transform sm:px-0"
+                    class="absolute left-1/2 z-10 mt-3 w-max -translate-x-1/2 transform sm:px-0"
                 >
                     <div
-                        class="overflow-hidden rounded-lg shadow-lg ring-1 ring-black/5"
+                        class="overflow-hidden rounded-md shadow-lg ring-1 ring-black/5"
                     >
                         <slot />
                     </div>
