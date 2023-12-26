@@ -4,6 +4,7 @@ import { InertiaProgress } from "@inertiajs/progress";
 import "../css/app.css";
 
 import route from "ziggy-js";
+import "./bootstrap.js";
 
 import Notifications from "notiwind";
 import { library } from "@fortawesome/fontawesome-svg-core";
