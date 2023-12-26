@@ -16,7 +16,7 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return redirect(route('admin.dashboard'));
+    return redirect(route('admin.dashboard.index'));
 });
 
 Route::prefix('admin')->name('admin.')->group(function () {
