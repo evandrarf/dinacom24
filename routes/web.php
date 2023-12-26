@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,5 +16,21 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Index');
+    return redirect(route('admin.dashboard'));
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return redirect(route('admin.dashboard'));
+    });
+
+    Route::controller(LoginController::class)->prefix('auth')->name('auth.')->group(function () {
+        Route::get('/login', 'showLoginForm')->name('login-form');
+        Route::post('/login', 'login')->name('login');
+        Route::get('/logout', 'logout')->name('logout')->middleware('auth');
+    });
+
+    Route::middleware('auth')->group(function () {
+        require __DIR__ . '/admin/dashboard.php';
+    });
 });

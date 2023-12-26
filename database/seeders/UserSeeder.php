@@ -23,14 +23,5 @@ class UserSeeder extends Seeder
             'password' => Hash::make('rahasia123')
         ]);
         $admin->assignRole('superadmin');
-
-        // $user = User::create([
-        //     'name' => 'User',
-        //     'email' => 'user@pemilos.com',
-        //     'email_verified_at' => now(),
-        //     'password' => Hash::make('rahasia123')
-        // ]);
-
-        // $user->assignRole('user');
     }
 }
