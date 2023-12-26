@@ -19,7 +19,7 @@ const getUrlPathName = (route) => {
 };
 </script>
 <template>
-    <div class="h-full flex flex-col relative z-10 bg-white shadow-lg w-64 p-8">
+    <div class="h-full flex flex-col relative z-10 bg-white shadow w-64 p-8">
         <div class="mb-16">
             <h3 class="font-bold text-2xl">BANSOSKUH</h3>
         </div>
