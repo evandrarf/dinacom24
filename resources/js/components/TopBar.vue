@@ -20,7 +20,7 @@ const emit = defineEmits(["logout"]);
                     {{ user_role[0] }}
                 </span>
                 <button
-                    class="rounded text-white font-medium"
+                    class="rounded font-medium"
                     @click="$emit('logout')"
                     :disabled="logoutLoading"
                     :class="{
