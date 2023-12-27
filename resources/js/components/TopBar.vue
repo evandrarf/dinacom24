@@ -1,6 +1,6 @@
 <script setup>
 import { object, array, bool } from "vue-types";
-import UserPopover from "./UserPopover.vue";
+import UserDropdown from "./UserDropdown.vue";
 
 const props = defineProps({
     user: object().def({}),
@@ -14,23 +14,19 @@ const emit = defineEmits(["logout"]);
     <div
         class="w-full bg-white px-16 py-4 h-16 top-0 flex items-center justify-end"
     >
-        <UserPopover :user="user" :user_role="user_role">
-            <div class="flex flex-col items-start px-6 py-4 gap-4">
-                <span class="text-primary font-semibold">
-                    {{ user_role[0] }}
-                </span>
+        <UserDropdown :user="user" :user_role="user_role">
+            <template v-slot:logout-button>
                 <button
-                    class="rounded font-medium"
                     @click="$emit('logout')"
                     :disabled="logoutLoading"
-                    :class="{
-                        'text-gray-300 cursor-not-allowed': logoutLoading,
-                        'text-red-600': !logoutLoading,
-                    }"
+                    :class="[
+                        logoutLoading ? 'text-gray-500' : 'text-red-600',
+                        'group flex w-full items-center rounded-md px-2 py-2 text-sm',
+                    ]"
                 >
                     {{ logoutLoading ? "Loading..." : "Keluar" }}
                 </button>
-            </div>
-        </UserPopover>
+            </template>
+        </UserDropdown>
     </div>
 </template>
