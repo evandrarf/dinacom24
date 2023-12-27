@@ -33,5 +33,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth')->group(function () {
         require __DIR__ . '/admin/dashboard.php';
         require __DIR__ . '/admin/resident.php';
+        require __DIR__ . '/admin/villege.php';
     });
 });

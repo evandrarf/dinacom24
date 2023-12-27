@@ -19,6 +19,12 @@ class GetSidebarMenuAction
                 'icon' => 'UsersIcon',
                 'can'  => 'view_general_dashboard'
             ],
+            [
+                'text' => 'Kelurahan',
+                'url'  => route('admin.villege.index'),
+                'icon' => 'CityIcon',
+                'can'  => 'view_general_dashboard'
+            ],
         ];
     }
 }

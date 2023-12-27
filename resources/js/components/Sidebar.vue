@@ -4,10 +4,12 @@ import { Link } from "@inertiajs/inertia-vue3";
 
 import PieChartIcon from "@/components/icons/PieChartIcon.vue";
 import UsersIcon from "@/components/icons/UsersIcon.vue";
+import CityIcon from "@/components/icons/CityIcon.vue";
 
 const icons = {
     PieChartIcon,
     UsersIcon,
+    CityIcon,
 };
 
 const props = defineProps({
