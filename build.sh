@@ -5,6 +5,7 @@ if [ -f .env ]; then
     echo "The .env file exists."
 else
     echo "The .env file does not exist."
+    echo "Copying the .env.example file to .env..."
     cp .env.example .env
 fi
 
