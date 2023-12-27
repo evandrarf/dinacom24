@@ -21,7 +21,7 @@ class GetSidebarMenuAction
             ],
             [
                 'text' => 'Kelurahan',
-                'url'  => route('admin.villege.index'),
+                'url'  => route('admin.village.index'),
                 'icon' => 'CityIcon',
                 'can'  => 'view_general_dashboard'
             ],

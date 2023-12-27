@@ -53,14 +53,16 @@ const logout = () => {
     <Notification></Notification>
     <div class="w-screen h-screen overflow-hidden flex bg-gray-50">
         <Sidebar :modules="modules" />
-        <div class="flex flex-col relative grow">
+        <div class="flex flex-col relative w-full">
             <TopBar
                 :user="user"
                 :user_role="user_role"
                 @logout="logout"
                 :logoutLoading="logoutLoading"
             />
-            <main class="p-12">
+            <main
+                class="p-12 overflow-y-auto scrollbar-thumb-gray-300 scrollbar-rounded-lg scrollbar-track-gray-100 scrollbar-thin"
+            >
                 <slot />
             </main>
         </div>
