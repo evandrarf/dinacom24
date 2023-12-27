@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin\Village;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Village\CreateVillageRequest;
+use App\Http\Resources\Admin\BaseSubmitResource;
 use App\Http\Resources\Admin\Village\VillageListResource;
 use App\Services\Admin\Village\VillageService;
 use Illuminate\Http\Request;
@@ -28,6 +30,19 @@ class VillageController extends Controller
             $data = $this->villageService->getData($request);
 
             $res = new VillageListResource($data);
+
+            return $this->respond($res, 200);
+        } catch (\Exception $e) {
+            return $this->exceptionError($e->getMessage(), 500);
+        }
+    }
+
+    public function store(CreateVillageRequest $request)
+    {
+        try {
+            $data = $this->villageService->store($request);
+
+            $res = new BaseSubmitResource($data, 'Sukses menambahkan data desa');
 
             return $this->respond($res, 200);
         } catch (\Exception $e) {

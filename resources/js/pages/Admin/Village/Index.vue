@@ -15,6 +15,7 @@ import SearchInput from "@/components/SearchInput.vue";
 import DataTable from "@/components/DataTable.vue";
 import Pagination from "@/components/Pagination.vue";
 import Empty from "@/components/icons/Empty.vue";
+import ModalForm from "./ModalForm.vue";
 
 const data = ref([]);
 const isLoading = ref(true);
@@ -27,6 +28,7 @@ const pagination = ref({
     total_pages: 1,
 });
 const selectedData = ref([]);
+const modalFormOpen = ref(false);
 
 const heads = ["Nama Kelurahan", "Aksi"];
 
@@ -84,6 +86,20 @@ const handleChangePage = (page) => {
     getData(page);
 };
 
+const openModalForm = () => {
+    modalFormOpen.value = true;
+};
+
+const handleCloseModalForm = () => {
+    modalFormOpen.value = false;
+};
+
+const handleSuccess = () => {
+    modalFormOpen.value = false;
+    isLoading.value = true;
+    getData(1);
+};
+
 onMounted(() => {
     getData(1);
 });
@@ -91,7 +107,10 @@ onMounted(() => {
 <template>
     <div class="w-full flex items-center justify-between">
         <h1 class="text-2xl font-semibold">Daftar Desa/Kelurahan</h1>
-        <button class="text-white bg-primary rounded-md px-3 py-2">
+        <button
+            @click="openModalForm"
+            class="text-white text-sm bg-primary rounded-md px-4 py-2"
+        >
             Tambah Data
         </button>
     </div>
@@ -167,4 +186,10 @@ onMounted(() => {
             :pagination="pagination"
         />
     </div>
+    <ModalForm
+        :openDialog="modalFormOpen"
+        :updateAction="false"
+        @success="handleSuccess"
+        @close="handleCloseModalForm"
+    />
 </template>

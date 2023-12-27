@@ -23,4 +23,13 @@ class VillageService
 
         return $data;
     }
+
+    public function store($request)
+    {
+        $data = $request->validated();
+
+        $village = Village::create($data);
+
+        return $village;
+    }
 }
