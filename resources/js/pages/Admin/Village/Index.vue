@@ -4,7 +4,7 @@ export default {
 };
 </script>
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 import { notify } from "notiwind";
 
@@ -16,6 +16,11 @@ import DataTable from "@/components/DataTable.vue";
 import Pagination from "@/components/Pagination.vue";
 import Empty from "@/components/icons/Empty.vue";
 import ModalForm from "./ModalForm.vue";
+import TrashCanIcon from "@/components/icons/TrashCanIcon.vue";
+import EditIcon from "@/components/icons/EditIcon.vue";
+import DropdownEditMenu from "@/components/DropdownEditMenu.vue";
+import TriangleExclamationIcon from "@/components/icons/TriangleExclamationIcon.vue";
+import Alert from "@/components/Alert.vue";
 
 const data = ref([]);
 const isLoading = ref(true);
@@ -28,9 +33,19 @@ const pagination = ref({
     total_pages: 1,
 });
 const selectedData = ref([]);
+const itemSelected = ref({});
 const modalFormOpen = ref(false);
+const openAlert = ref(false);
+const openAlertMany = ref(false);
 
-const heads = ["Nama Kelurahan", "Aksi"];
+const alertData = reactive({
+    headerLabel: "",
+    contentLabel: "",
+    closeLabel: "",
+    submitLabel: "",
+});
+
+const heads = ["Nama Desa/Kelurahan", "Aksi"];
 
 const getData = debounce(async (page) => {
     axios
@@ -100,6 +115,99 @@ const handleSuccess = () => {
     getData(1);
 };
 
+const handleAlertDeleteMany = () => {
+    openAlertMany.value = true;
+    alertData.headerLabel = "Menghapus data desa/kelurahan";
+    alertData.contentLabel = `Anda yakin ingin menghapus data desa/kelurahan terpilih?`;
+    alertData.closeLabel = "Batal";
+    alertData.submitLabel = "Hapus";
+};
+
+const handleAlertDelete = (data) => {
+    openAlert.value = true;
+    alertData.headerLabel = "Menghapus data desa/kelurahan";
+    alertData.contentLabel = `Anda yakin ingin menghapus data desa/kelurahan ${data.name}?`;
+    alertData.closeLabel = "Batal";
+    alertData.submitLabel = "Hapus";
+    itemSelected.value = { ...data };
+};
+
+const closeAlert = () => {
+    openAlert.value = false;
+};
+
+const closeAlertMany = () => {
+    openAlertMany.value = false;
+};
+
+const deleteManyData = () => {
+    axios
+        .delete(route("admin.village.destroy-many"), {
+            data: {
+                ids: selectedData.value,
+            },
+        })
+        .then((res) => {
+            notify(
+                {
+                    type: "success",
+                    group: "top",
+                    text: res.data.message,
+                },
+                2500
+            );
+            openAlertMany.value = false;
+            isLoading.value = true;
+            getData(1);
+        })
+        .catch((error) => {
+            notify(
+                {
+                    type: "error",
+                    group: "top",
+                    text: error.response.data.message,
+                },
+                2500
+            );
+        })
+        .finally(() => {
+            openAlert.value = false;
+            selectedData.value = [];
+        });
+};
+
+const deleteData = () => {
+    axios
+        .delete(route("admin.village.destroy", itemSelected.value.id))
+        .then((res) => {
+            notify(
+                {
+                    type: "success",
+                    group: "top",
+                    text: res.data.message,
+                },
+                2500
+            );
+            openAlert.value = false;
+            isLoading.value = true;
+            getData(1);
+        })
+        .catch((error) => {
+            notify(
+                {
+                    type: "error",
+                    group: "top",
+                    text: error.response.data.message,
+                },
+                2500
+            );
+        })
+        .finally(() => {
+            openAlert.value = false;
+            itemSelected.value = {};
+        });
+};
+
 onMounted(() => {
     getData(1);
 });
@@ -114,13 +222,23 @@ onMounted(() => {
             Tambah Data
         </button>
     </div>
-    <div class="w-full mt-8">
+    <div class="w-full mt-8 flex justify-between items-center">
         <div class="w-1/3">
             <SearchInput
                 v-model="search"
                 placeholder="Cari desa/kelurahan..."
                 @update:modelValue="handleSearch"
             />
+        </div>
+        <div>
+            <button
+                @click="handleAlertDeleteMany"
+                :disabled="selectedData.length === 0"
+                class="text-sm disabled:cursor-not-allowed disabled:text-gray-400 disabled:border-gray-300 text-red-500 border border-red-600 flex space-x-2 items-center rounded px-4 py-2"
+            >
+                <TriangleExclamationIcon />
+                <p>Hapus data terpilih</p>
+            </button>
         </div>
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-8">
@@ -129,6 +247,9 @@ onMounted(() => {
             @select-all="handleSelectAllData"
             :isLoading="isLoading"
             :isEmpty="data.length === 0"
+            :isCheckedAll="
+                selectedData.length === data.length && data.length !== 0
+            "
         >
             <tr
                 v-if="!isLoading && data.length !== 0"
@@ -160,11 +281,31 @@ onMounted(() => {
                     {{ item.name }}
                 </th>
                 <td class="px-6 py-4">
-                    <span
-                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800"
+                    <DropdownEditMenu
+                        class="relative inline-flex r-0"
+                        :align="'right'"
+                        :last="index === data.length - 1 ? true : false"
                     >
-                        Edit
-                    </span>
+                        <li class="cursor-pointer hover:bg-slate-100 py-3 px-4">
+                            <div
+                                class="flex items-center space-x-2 cursor-pointer text-primary"
+                            >
+                                <EditIcon />
+                                <p>Ubah</p>
+                            </div>
+                        </li>
+                        <li
+                            class="cursor-pointer hover:bg-slate-100 py-3 px-4"
+                            @click="handleAlertDelete(item)"
+                        >
+                            <div
+                                class="flex items-center space-x-2 cursor-pointer text-red-600"
+                            >
+                                <TrashCanIcon />
+                                <p>Hapus</p>
+                            </div>
+                        </li>
+                    </DropdownEditMenu>
                 </td>
             </tr>
             <tr v-else-if="!isLoading && data.length === 0">
@@ -191,5 +332,25 @@ onMounted(() => {
         :updateAction="false"
         @success="handleSuccess"
         @close="handleCloseModalForm"
+    />
+    <Alert
+        :open-dialog="openAlert"
+        @closeAlert="closeAlert"
+        @submitAlert="deleteData"
+        type="danger"
+        :headerLabel="alertData.headerLabel"
+        :contentLabel="alertData.contentLabel"
+        :closeLabel="alertData.closeLabel"
+        :submitLabel="alertData.submitLabel"
+    />
+    <Alert
+        :open-dialog="openAlertMany"
+        @closeAlert="closeAlertMany"
+        @submitAlert="deleteManyData"
+        type="danger"
+        :headerLabel="alertData.headerLabel"
+        :contentLabel="alertData.contentLabel"
+        :closeLabel="alertData.closeLabel"
+        :submitLabel="alertData.submitLabel"
     />
 </template>

@@ -32,4 +32,26 @@ class VillageService
 
         return $village;
     }
+
+    public function destroy($request, $id)
+    {
+        $village = Village::findOrFail($id);
+
+        $village->delete();
+
+        return $village;
+    }
+
+    public function destroyMany($request)
+    {
+        $ids = $request->ids;
+
+        $villages = Village::whereIn('id', $ids)->get();
+
+        foreach ($villages as $village) {
+            $village->delete();
+        }
+
+        return $villages;
+    }
 }
