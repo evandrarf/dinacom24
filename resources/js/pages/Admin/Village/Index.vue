@@ -8,7 +8,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { notify } from "notiwind";
 
-import AdminDashboardLayout from "@/Layouts/AdminDashboardLayout.vue";
+import AdminDashboardLayout from "@/layouts/AdminDashboardLayout.vue";
 import debounce from "@/composables/debounce";
 import Loading from "@/components/Loading.vue";
 import SearchInput from "@/components/SearchInput.vue";
