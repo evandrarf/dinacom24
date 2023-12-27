@@ -22,11 +22,11 @@ app_key=$(grep -oP '^APP_KEY=(.*)$' .env |  grep -oP '(?<==).*')
 # Check if the APP_KEY is empty
 if [ -z "$app_key" ]; then
     echo "APP_KEY is empty. Generating a new key..."
-    php artisan key:generate
+    docker exec dinacom24-app-container php artisan key:generate
 
     # Optionally clear cached configuration
     if [ -f bootstrap/cache/config.php ]; then
-        php artisan config:cache
+        docker exec dinacom24-app-container php artisan config:cache
         echo "Configuration cache cleared."
     fi
 else
