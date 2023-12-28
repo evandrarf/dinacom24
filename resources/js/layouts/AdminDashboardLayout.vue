@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref } from "vue";
-import { array, object } from "vue-types";
+import { array, object, string } from "vue-types";
 import axios from "axios";
 import { notify } from "notiwind";
 
@@ -12,6 +12,7 @@ const props = defineProps({
     modules: array().def([]),
     user: object().def({}),
     user_role: array().def(null),
+    app_name: string().def(""),
 });
 
 const user = computed(() => props.user);
@@ -52,7 +53,7 @@ const logout = () => {
 <template>
     <Notification></Notification>
     <div class="w-screen h-screen overflow-hidden flex bg-gray-50">
-        <Sidebar :modules="modules" />
+        <Sidebar :modules="modules" :app_name="app_name" />
         <div class="flex flex-col relative w-full">
             <TopBar
                 :user="user"

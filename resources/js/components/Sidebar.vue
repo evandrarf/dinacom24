@@ -1,5 +1,5 @@
 <script setup>
-import { array } from "vue-types";
+import { array, string } from "vue-types";
 import { Link } from "@inertiajs/inertia-vue3";
 
 import PieChartIcon from "@/components/icons/PieChartIcon.vue";
@@ -16,6 +16,7 @@ const icons = {
 
 const props = defineProps({
     modules: array().def([]),
+    app_name: string().def(""),
 });
 
 const getUrlPathName = (route) => {
@@ -25,7 +26,7 @@ const getUrlPathName = (route) => {
 <template>
     <div class="h-full flex flex-col relative z-10 bg-white shadow w-72 p-8">
         <div class="mb-16">
-            <h3 class="font-bold text-lg">BANSOSKUH</h3>
+            <h3 class="font-bold text-lg">{{ app_name }}</h3>
         </div>
         <div class="flex flex-col gap-6">
             <div

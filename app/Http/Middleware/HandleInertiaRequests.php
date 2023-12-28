@@ -54,6 +54,7 @@ class HandleInertiaRequests extends Middleware
                 : null,
             'user_role' => auth()->check() ? auth()->user()->getRoleNames() : null,
             'modules' => $activeModules,
+            'app_name' => config('app.name'),
         ]);
     }
 }
