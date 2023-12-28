@@ -17,13 +17,19 @@ class GetSidebarMenuAction
                 'text' => 'Warga',
                 'url'  => route('admin.resident.index'),
                 'icon' => 'UsersIcon',
-                'can'  => 'view_general_dashboard'
+                'can'  => ['view_general_dashboard', 'view_resident']
+            ],
+            [
+                'text' => 'Petugas',
+                'url'  => route('admin.user-management.index'),
+                'icon' => 'OfficerIcon',
+                'can'  => ['view_user_management']
             ],
             [
                 'text' => 'Kelurahan',
                 'url'  => route('admin.village.index'),
                 'icon' => 'CityIcon',
-                'can'  => 'view_general_dashboard'
+                'can'  => ['view_village']
             ],
         ];
     }

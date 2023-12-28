@@ -28,6 +28,33 @@ class PermissionSeeder extends Seeder
                             ]
                         ]
                     ],
+                    [
+                        'name' => 'resident',
+                        'permission' => [
+                            [
+                                'name' => 'view_resident',
+                                'label' => 'View Resident',
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'village',
+                        'permission' => [
+                            [
+                                'name' => 'view_village',
+                                'label' => 'View Village',
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'user_management',
+                        'permission' => [
+                            [
+                                'name' => 'view_user_management',
+                                'label' => 'View User Management',
+                            ],
+                        ]
+                    ],
 
                 ]
             ],

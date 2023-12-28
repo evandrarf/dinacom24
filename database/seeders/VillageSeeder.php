@@ -168,7 +168,7 @@ class VillageSeeder extends Seeder
             "Jangli",
             "Kedungmundu",
             "Kramas",
-            "Mangunharjo",
+            "Mangunharjo Tembalang",
             "Meteseh",
             "Rowosari",
             "Sambiroto",
@@ -180,7 +180,7 @@ class VillageSeeder extends Seeder
             "Karanganyar",
             "Mangkang Kulon",
             "Mangkang Wetan",
-            "Mangunharjo",
+            "Mangunharjo Tugu",
             "Randu Garut",
             "Tugurejo"
         ];

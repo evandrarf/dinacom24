@@ -7,6 +7,7 @@ export default {
 import { ref, onMounted, reactive } from "vue";
 import axios from "axios";
 import { notify } from "notiwind";
+import { object } from "vue-types";
 
 import AdminDashboardLayout from "@/layouts/AdminDashboardLayout.vue";
 import debounce from "@/composables/debounce";
@@ -46,11 +47,15 @@ const alertData = reactive({
     submitLabel: "",
 });
 
-const heads = ["Nama Desa/Kelurahan", "Aksi"];
+const props = defineProps({
+    additional: object().def({}),
+});
+
+const heads = ["Nama", "Email", "Desa/Kelurahan", "Aksi"];
 
 const getData = debounce(async (page) => {
     axios
-        .get(route("admin.village.get-data"), {
+        .get(route("admin.user-management.get-data"), {
             params: {
                 page: page,
                 search: search.value,
@@ -151,7 +156,7 @@ const closeAlertMany = () => {
 
 const deleteManyData = () => {
     axios
-        .delete(route("admin.village.destroy-many"), {
+        .delete(route("admin.user-management.destroy-many"), {
             data: {
                 ids: selectedData.value,
             },
@@ -187,7 +192,7 @@ const deleteManyData = () => {
 
 const deleteData = () => {
     axios
-        .delete(route("admin.village.destroy", itemSelected.value.id))
+        .delete(route("admin.user-management.destroy", itemSelected.value.id))
         .then((res) => {
             notify(
                 {
@@ -223,7 +228,7 @@ onMounted(() => {
 </script>
 <template>
     <div class="w-full flex items-center justify-between">
-        <h1 class="text-2xl font-semibold">Daftar Desa/Kelurahan</h1>
+        <h1 class="text-2xl font-semibold">Daftar Petugas Admin</h1>
         <button
             @click="openModalForm"
             class="text-white text-sm bg-primary rounded-md px-4 py-2"
@@ -235,7 +240,7 @@ onMounted(() => {
         <div class="w-1/3">
             <SearchInput
                 v-model="search"
-                placeholder="Cari desa/kelurahan..."
+                placeholder="Cari nama petugas/desa/kelurahan"
                 @update:modelValue="handleSearch"
             />
         </div>
@@ -290,6 +295,12 @@ onMounted(() => {
                     {{ item.name }}
                 </th>
                 <td class="px-6 py-4">
+                    {{ item.email }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ item.village.name }}
+                </td>
+                <td class="px-6 py-4">
                     <DropdownEditMenu
                         class="relative inline-flex r-0"
                         :align="'right'"
@@ -343,6 +354,7 @@ onMounted(() => {
         :openDialog="modalFormOpen"
         :updateAction="updateAction"
         :itemSelected="itemSelected"
+        :additional="props.additional"
         @success="handleSuccess"
         @close="handleCloseModalForm"
     />

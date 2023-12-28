@@ -53,14 +53,14 @@ watch(
             <div
                 v-show="showModal"
                 :id="id"
-                class="fixed inset-0 z-30 flex items-center my-4 justify-center transform px-4 sm:px-6 overflow-y-scroll no-scrollbar"
+                class="fixed inset-0 z-30 flex items-center my-4 justify-center transform px-4 sm:px-6 overflow-y-auto no-scrollbar"
                 role="dialog"
                 aria-modal="true"
                 :class="wrapperClass"
             >
                 <div
                     ref="modalContent"
-                    class="bg-white rounded shadow-lg w-full max-h-full no-scrollbar overflow-auto"
+                    class="bg-white rounded shadow-lg w-full max-h-full no-scrollbar overflow-visible"
                     :class="{
                         'max-w-[438px]': mobile,
                         'max-w-sm': size === 'sm',

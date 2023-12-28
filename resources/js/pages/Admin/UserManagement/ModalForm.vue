@@ -6,11 +6,13 @@ import { ref, watch } from "vue";
 
 import Dialog from "@/components/Dialog.vue";
 import Input from "@/components/Input.vue";
+import Select from "@/components/Select.vue";
 
 const props = defineProps({
     openDialog: bool().def(false),
     updateAction: bool().def(false),
     itemSelected: object().def({}),
+    additional: object().def({}),
 });
 
 const emit = defineEmits(["close", "success"]);
@@ -26,7 +28,7 @@ const formRef = ref(null);
 const createData = () => {
     isLoading.value = true;
     axios
-        .post(route("admin.village.store"), form.value)
+        .post(route("admin.user-management.store"), form.value)
         .then((res) => {
             notify(
                 {
@@ -58,7 +60,7 @@ const updateData = () => {
     isLoading.value = true;
 
     axios
-        .put(route("admin.village.update", form.value.id), form.value)
+        .put(route("admin.user-management.update", form.value.id), form.value)
         .then((res) => {
             notify(
                 {
@@ -127,9 +129,42 @@ watch(
                 <div>
                     <Input
                         v-model="form.name"
-                        label="Nama desa/kelurahan"
-                        placeholder="Masukkan nama desa/kelurahan"
+                        label="Nama"
+                        placeholder="Masukkan nama user"
                         :required="true"
+                    />
+                </div>
+                <div class="mt-4">
+                    <Input
+                        v-model="form.email"
+                        label="Email"
+                        :type="'email'"
+                        placeholder="Masukkan email user"
+                        :required="true"
+                    />
+                </div>
+                <div class="mt-4">
+                    <Input
+                        v-model="form.password"
+                        label="Password"
+                        :type="'password'"
+                        :placeholder="
+                            updateAction
+                                ? 'Kosongkan jika tidak ingin mengubah password'
+                                : 'Masukkan password user'
+                        "
+                        :required="updateAction ? false : true"
+                    />
+                </div>
+                <div class="mt-4">
+                    <Select
+                        label="Kelurahan/Desa"
+                        placeholder="Pilih kelurahan/desa"
+                        v-model="form.village_id"
+                        :required="true"
+                        :options="additional.villages"
+                        :clearable="false"
+                        class="w-1/2"
                     />
                 </div>
             </form>

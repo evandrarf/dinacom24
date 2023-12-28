@@ -24,7 +24,7 @@ class RoleSeeder extends Seeder
             ],
             [
                 'name' => 'Admin',
-                'permissions' => ['view_general_dashboard']
+                'permissions' => ['view_general_dashboard', 'view_resident']
             ]
         ];
 

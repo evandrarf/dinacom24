@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Village;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -23,5 +24,18 @@ class UserSeeder extends Seeder
             'password' => Hash::make('rahasia123')
         ]);
         $admin->assignRole('Super Admin');
+
+        $villages = Village::all();
+
+        foreach ($villages as $village) {
+            $user = User::create([
+                'name' => "Admin " . $village->name,
+                'email' => Str::slug($village->name) . '@test.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('rahasia123'),
+                'village_id' => $village->id
+            ]);
+            $user->assignRole('Admin');
+        }
     }
 }
