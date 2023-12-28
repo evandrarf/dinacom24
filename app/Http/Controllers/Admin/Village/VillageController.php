@@ -51,6 +51,19 @@ class VillageController extends Controller
         }
     }
 
+    public function update(CreateVillageRequest $request, $id)
+    {
+        try {
+            $data = $this->villageService->update($request, $id);
+
+            $res = new BaseSubmitResource($data, 'Sukses mengubah data desa');
+
+            return $this->respond($res, 200);
+        } catch (\Exception $e) {
+            return $this->exceptionError($e->getMessage(), 500);
+        }
+    }
+
     public function destroy(Request $request, $id)
     {
         try {

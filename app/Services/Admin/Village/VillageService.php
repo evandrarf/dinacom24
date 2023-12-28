@@ -33,6 +33,17 @@ class VillageService
         return $village;
     }
 
+    public function update($request, $id)
+    {
+        $data = $request->validated();
+
+        $village = Village::findOrFail($id);
+
+        $village->update($data);
+
+        return $village;
+    }
+
     public function destroy($request, $id)
     {
         $village = Village::findOrFail($id);

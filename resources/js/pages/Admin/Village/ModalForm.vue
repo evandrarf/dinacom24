@@ -1,8 +1,8 @@
 <script setup>
-import { bool } from "vue-types";
+import { bool, object } from "vue-types";
 import axios from "axios";
 import { notify } from "notiwind";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 import Dialog from "@/components/Dialog.vue";
 import Input from "@/components/Input.vue";
@@ -10,6 +10,7 @@ import Input from "@/components/Input.vue";
 const props = defineProps({
     openDialog: bool().def(false),
     updateAction: bool().def(false),
+    itemSelected: object().def({}),
 });
 
 const emit = defineEmits(["close", "success"]);
@@ -52,6 +53,47 @@ const createData = () => {
             isLoading.value = false;
         });
 };
+
+const updateData = () => {
+    isLoading.value = true;
+
+    axios
+        .put(route("admin.village.update", form.value.id), form.value)
+        .then((res) => {
+            notify(
+                {
+                    type: "success",
+                    group: "top",
+                    text: res.data.meta.message,
+                },
+                2500
+            );
+            form.value = {};
+            emit("success");
+        })
+        .catch((error) => {
+            notify(
+                {
+                    type: "error",
+                    group: "top",
+                    text: error.response.data.message,
+                },
+                2500
+            );
+        })
+        .finally(() => {
+            isLoading.value = false;
+        });
+};
+
+watch(
+    () => props.itemSelected,
+    (value) => {
+        if (value) {
+            form.value = value;
+        }
+    }
+);
 </script>
 <template>
     <Dialog
@@ -78,7 +120,10 @@ const createData = () => {
             </button>
         </template>
         <template v-slot:content>
-            <form @submit.prevent="createData" ref="formRef">
+            <form
+                @submit.prevent="updateAction ? updateData() : createData()"
+                ref="formRef"
+            >
                 <div>
                     <Input
                         v-model="form.name"
@@ -99,7 +144,7 @@ const createData = () => {
                     Batal
                 </button>
                 <button
-                    @click="createData"
+                    @click="updateAction ? updateData() : createData()"
                     type="button"
                     :disabled="isLoading"
                     :class="{

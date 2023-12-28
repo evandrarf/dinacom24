@@ -35,6 +35,7 @@ const pagination = ref({
 const selectedData = ref([]);
 const itemSelected = ref({});
 const modalFormOpen = ref(false);
+const updateAction = ref(false);
 const openAlert = ref(false);
 const openAlertMany = ref(false);
 
@@ -107,12 +108,20 @@ const openModalForm = () => {
 
 const handleCloseModalForm = () => {
     modalFormOpen.value = false;
+    updateAction.value = false;
+    itemSelected.value = {};
 };
 
 const handleSuccess = () => {
-    modalFormOpen.value = false;
+    handleCloseModalForm();
     isLoading.value = true;
     getData(1);
+};
+
+const handleEdit = (val) => {
+    modalFormOpen.value = true;
+    itemSelected.value = { ...val };
+    updateAction.value = true;
 };
 
 const handleAlertDeleteMany = () => {
@@ -286,7 +295,10 @@ onMounted(() => {
                         :align="'right'"
                         :last="index === data.length - 1 ? true : false"
                     >
-                        <li class="cursor-pointer hover:bg-slate-100 py-3 px-4">
+                        <li
+                            @click="() => handleEdit(item)"
+                            class="cursor-pointer hover:bg-slate-100 py-3 px-4"
+                        >
                             <div
                                 class="flex items-center space-x-2 cursor-pointer text-primary"
                             >
@@ -329,7 +341,8 @@ onMounted(() => {
     </div>
     <ModalForm
         :openDialog="modalFormOpen"
-        :updateAction="false"
+        :updateAction="updateAction"
+        :itemSelected="itemSelected"
         @success="handleSuccess"
         @close="handleCloseModalForm"
     />
