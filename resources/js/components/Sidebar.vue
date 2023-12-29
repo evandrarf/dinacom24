@@ -25,12 +25,15 @@ const getUrlPathName = (route) => {
 </script>
 <template>
     <div class="h-full flex flex-col relative z-10 bg-white shadow w-72 p-8">
-        <div class="mb-16 flex items-center gap-4">
+        <Link
+            :href="route('admin.dashboard.index')"
+            class="mb-16 flex items-center gap-4"
+        >
             <img src="/assets/logo.svg" alt="Logo Aplikasi" class="w-8 h-8" />
             <h3 class="font-bold text-lg">
                 {{ app_name }}
             </h3>
-        </div>
+        </Link>
         <div class="flex flex-col gap-6">
             <div
                 v-for="(item, index) in modules"
