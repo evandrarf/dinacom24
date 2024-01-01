@@ -42,7 +42,7 @@ class ResidentListResource extends ResourceCollection
             'family_card_file' => $data->familyCard ? $data->familyCard->file_path : null,
             'identity_card_file' => $data->identityCard ? $data->identityCard->file_path : null,
             'score' => $data->calculateEligibilityScore(),
-            'address' => $data->getFullAddressAttribute(),
+            'full_address' => $data->full_address
         ];
     }
 

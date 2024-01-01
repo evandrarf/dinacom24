@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Admin\Resident;
 
+use App\Actions\Utility\GetFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -26,6 +27,7 @@ class ResidentDetailResource extends JsonResource
 
     public function getData(): array
     {
+        $getFile = new GetFile();
         return [
             'id' => $this->id,
             'family_card_number' => $this->family_card_number,
@@ -45,11 +47,11 @@ class ResidentDetailResource extends JsonResource
             'phone_number' => $this->phone_number,
             'house_type' => $this->house_type,
             'status' => $this->status,
-            'family_card_file' => $this->familyCard ? $this->familyCard->file_path : null,
-            'identity_card_file' => $this->identityCard ? $this->identityCard->file_path : null,
+            'family_card_file' => $this->family_card_file_id ? $this->familyCard->file_path : null,
+            'identity_card_file' => $this->identity_card_file_id ? $getFile->handle($this->identity_card_file_id)->full_path : null,
             'score' => $this->calculateEligibilityScore(),
             'address' => $this->address,
-            'full_address' => $this->getFullAddressAttribute(),
+            'full_address' => $this->full_address
         ];
     }
 }

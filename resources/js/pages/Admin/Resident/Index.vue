@@ -337,7 +337,7 @@ onMounted(() => {
                     {{ item.head_of_family_name }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ item.address }}
+                    {{ item.full_address }}
                 </td>
                 <td
                     class="px-6 py-4"
