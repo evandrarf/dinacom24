@@ -25,17 +25,10 @@ class UserSeeder extends Seeder
         ]);
         $admin->assignRole('Super Admin');
 
-        $villages = Village::all();
+        $villages = Village::all()->pluck('id')->toArray();
 
-        foreach ($villages as $village) {
-            $user = User::create([
-                'name' => "Admin " . $village->name,
-                'email' => Str::slug($village->name) . '@test.com',
-                'email_verified_at' => now(),
-                'password' => Hash::make('rahasia123'),
-                'village_id' => $village->id
-            ]);
+        User::factory()->count(count($villages))->create()->each(function ($user) {
             $user->assignRole('Admin');
-        }
+        });
     }
 }

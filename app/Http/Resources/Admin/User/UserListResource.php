@@ -13,7 +13,7 @@ class UserListResource extends ResourceCollection
             'data' => $this->transformCollection($this->collection),
             'meta' => [
                 "success" => true,
-                "message" => "Success get all candidate lists",
+                "message" => "Sukses mendapatkan data user",
                 'pagination' => $this->metaData()
             ]
         ];

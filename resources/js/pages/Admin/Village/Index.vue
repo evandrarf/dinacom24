@@ -161,7 +161,7 @@ const deleteManyData = () => {
                 {
                     type: "success",
                     group: "top",
-                    text: res.data.message,
+                    text: res.data.meta.message,
                 },
                 2500
             );
@@ -193,7 +193,7 @@ const deleteData = () => {
                 {
                     type: "success",
                     group: "top",
-                    text: res.data.message,
+                    text: res.data.meta.message,
                 },
                 2500
             );

@@ -66,7 +66,7 @@ defineExpose({
 <template>
     <div>
         <label
-            class="block text-sm text-gray-500 mb-1"
+            class="block text-sm text-gray-500 mb-3"
             :for="placeholder"
             v-if="label"
             >{{ label }}

@@ -131,16 +131,16 @@ const handleEdit = (val) => {
 
 const handleAlertDeleteMany = () => {
     openAlertMany.value = true;
-    alertData.headerLabel = "Menghapus data desa/kelurahan";
-    alertData.contentLabel = `Anda yakin ingin menghapus data desa/kelurahan terpilih?`;
+    alertData.headerLabel = "Menghapus data petugas admin";
+    alertData.contentLabel = `Anda yakin ingin menghapus data petugas admin terpilih?`;
     alertData.closeLabel = "Batal";
     alertData.submitLabel = "Hapus";
 };
 
 const handleAlertDelete = (data) => {
     openAlert.value = true;
-    alertData.headerLabel = "Menghapus data desa/kelurahan";
-    alertData.contentLabel = `Anda yakin ingin menghapus data desa/kelurahan ${data.name}?`;
+    alertData.headerLabel = "Menghapus data petugas admin";
+    alertData.contentLabel = `Anda yakin ingin menghapus data petugas admin ${data.name}?`;
     alertData.closeLabel = "Batal";
     alertData.submitLabel = "Hapus";
     itemSelected.value = { ...data };
@@ -166,7 +166,7 @@ const deleteManyData = () => {
                 {
                     type: "success",
                     group: "top",
-                    text: res.data.message,
+                    text: res.data.meta.message,
                 },
                 2500
             );
@@ -198,7 +198,7 @@ const deleteData = () => {
                 {
                     type: "success",
                     group: "top",
-                    text: res.data.message,
+                    text: res.data.meta.message,
                 },
                 2500
             );

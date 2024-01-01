@@ -62,7 +62,7 @@ const logout = () => {
                 :logoutLoading="logoutLoading"
             />
             <main
-                class="p-12 overflow-y-auto scrollbar-thumb-gray-300 scrollbar-rounded-lg scrollbar-track-gray-100 scrollbar-thin"
+                class="p-12 overflow-y-auto scrollbar-thumb-gray-300 scrollbar-rounded-lg scrollbar-track-gray-100 scrollbar-thin min-h-4/5"
             >
                 <slot />
             </main>

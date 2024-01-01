@@ -13,7 +13,7 @@ class VillageListResource extends ResourceCollection
             'data' => $this->transformCollection($this->collection),
             'meta' => [
                 "success" => true,
-                "message" => "Success get all candidate lists",
+                "message" => "Sukses mendapatkan data desa/kelurahan",
                 'pagination' => $this->metaData()
             ]
         ];
