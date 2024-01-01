@@ -46,9 +46,8 @@ else
 fi
 
 # Run Storage Link
-#echo "Running storage link..."
-#workdir=$(pwd)
-#ln -s $workdir/storage/app/public $workdir/public/storage
+echo "Running storage link..."
+docker exec dinacom24-app-container php artisan storage:link --relative
 
 # Install npm dependencies
 echo "Installing npm dependencies..."
