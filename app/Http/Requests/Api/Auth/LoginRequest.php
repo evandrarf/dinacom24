@@ -3,8 +3,14 @@
 namespace App\Http\Requests\Api\Auth;
 
 use App\Http\Requests\ApiBaseRequest;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
+use Firebase\JWT\SignatureInvalidException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends ApiBaseRequest
 {
@@ -25,13 +31,43 @@ class LoginRequest extends ApiBaseRequest
     {
         $jwtHeader = request()->header('X-JWT-AUTH');
 
-        if (!$jwtHeader) return ['family_card_number' => 'required|numeric|digits:16'];
+        try {
+            if (!$jwtHeader) return ['family_card_number' => 'required|numeric|digits:16'];
 
-        $session = JWT::decode($jwtHeader, new Key(config('jwt.secret'), config('jwt.algo')));
+            $session = JWT::decode($jwtHeader, new Key(config('jwt.secret'), config('jwt.algo')));
 
-        if ($session->next_step === 'activation') return ['file' => 'required|file|mimes:png,jpg,jpeg,gif'];
-        else if ($session->next_step === 'set_password') return ['password' => 'required|string|min:8|confirmed'];
-        else if ($session->next_step === 'verify_password') return ['password' => 'required|string|min:8'];
+            if ($session->next_step === 'activation') return ['file' => 'required|file|mimes:png,jpg,jpeg,gif'];
+            else if ($session->next_step === 'set_password') return ['password' => 'required|string|min:8|confirmed'];
+            else if ($session->next_step === 'verify_password') return ['password' => 'required|string|min:8'];
+        } catch (ExpiredException $e) {
+            throw new HttpResponseException(
+                response()->json([
+                    'meta' => [
+                        "success" => false,
+                        'error' => "Token JWT telah kadaluarsa"
+                    ]
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+            );
+        } catch (BeforeValidException | SignatureInvalidException  $e) {
+            throw new HttpResponseException(
+                response()->json([
+                    'meta' => [
+                        "success" => false,
+                        'error' => "Token JWT tidak valid"
+                    ]
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+            );
+        } catch (\Exception $e) {
+            // Kesalahan dekode lainnya
+            throw new HttpResponseException(
+                response()->json([
+                    'meta' => [
+                        "success" => false,
+                        'error' => "Terjadi kesalahan saat memproses token JWT"
+                    ]
+                ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
+            );
+        }
     }
 
     /**
