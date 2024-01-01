@@ -45,7 +45,7 @@ class AuthService
 
         $response = Http::attach('file', file_get_contents($pathName), $fileName)->post('https://ktp-ocr-getnik.evandrarf.my.id/get-nik')->object();
 
-        if (strtolower($response->status) !== 'success') {
+        if (strtolower($response->status) !== 'success' || !$response->nik) {
             throw new Exception("Gagal memindai KTP, pastikan foto KTP terlihat dengan jelas", 500);
         }
 
