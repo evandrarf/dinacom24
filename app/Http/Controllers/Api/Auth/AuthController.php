@@ -95,9 +95,7 @@ class AuthController extends Controller
 
             $token = Auth::guard('api')->login($data);
 
-            $res = new SubmitAuthResource([
-                'token' => $token,
-            ], 'Berhasil mengatur password');
+            $res = new SuccessLoginResource($data, $token, 'Berhasil mengatur password');
 
             return $this->respond($res);
         } catch (Exception $e) {
