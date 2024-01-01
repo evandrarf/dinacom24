@@ -30,6 +30,10 @@ class AuthController extends Controller
 
             $session = JWT::decode($jwtHeader, new Key(config('jwt.secret'), config('jwt.algo')));
 
+            if (!isset($session->next_step) || !$session->next_step) {
+                throw new Exception("Token tidak valid", 403);
+            }
+
             if ($session->next_step === 'activation') return $this->activateAccount($request, $session);
             else if ($session->next_step === 'set_password') return $this->setPassword($request, $session);
             else if ($session->next_step === 'verify_password') return $this->verifyPassword($request, $session);
@@ -46,7 +50,7 @@ class AuthController extends Controller
             $payload = [
                 'family_card_number' => $data->family_card_number,
                 'next_step' => $data->status === 'inactive' ? 'activation' : ($data->password ? 'verify_password' : 'set_password'),
-                'exp' => time() + (60 * 60)
+                'exp' => time() + (60 * 5)
             ];
 
             $token = JWT::encode($payload, config('jwt.secret'), config('jwt.algo'));
@@ -69,7 +73,7 @@ class AuthController extends Controller
             $payload = [
                 'family_card_number' => $data->family_card_number,
                 'next_step' => 'set_password',
-                'exp' => time() + (60 * 60)
+                'exp' => time() + (60 * 5)
             ];
 
             $token = JWT::encode($payload, config('jwt.secret'), config('jwt.algo'));
