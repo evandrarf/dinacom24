@@ -162,7 +162,7 @@ onMounted(() => {
         </div>
         <h2 class="text-black font-semibold text-xl my-8">Lampiran</h2>
         <div class="grid grid-cols-2 gap-6">
-            <div class="flex-col flex gap-2">
+            <div class="flex-col flex gap-4">
                 <h5 class="font-medium">Foto KK</h5>
                 <img
                     v-if="data.family_card_file"
@@ -171,7 +171,7 @@ onMounted(() => {
                 />
                 <p v-else>Belum Upload Foto KK</p>
             </div>
-            <div class="flex-col flex gap-2">
+            <div class="flex-col flex gap-4">
                 <h5 class="font-medium">Foto KTP</h5>
                 <img
                     v-if="data.identity_card_file"
