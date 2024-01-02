@@ -38,6 +38,8 @@ RUN useradd -u 1000 -ms /bin/bash -g www www
 # Copy application files and change ownership
 COPY --chown=www:www . /var/www/
 RUN chown -R www:www /var/www
+RUN chown -R www:www /var/www/storage
+RUN chmod -R 777 /var/www/storage
 
 WORKDIR /var/www
 
