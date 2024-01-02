@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Resources\Api\Auth\SubmitAuthResource;
+use App\Http\Resources\Api\Auth\SuccessGetProfileResource;
 use App\Http\Resources\Api\Auth\SuccessLoginResource;
 use App\Services\Api\Auth\AuthService;
 use Exception;
@@ -12,13 +13,15 @@ use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use stdClass;
 
 class AuthController extends Controller
 {
     private $authService;
     public function __construct(AuthService $authService)
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->middleware('JwtMiddleware', ['except' => ['login']]);
         $this->authService = $authService;
     }
 
@@ -111,6 +114,46 @@ class AuthController extends Controller
             $token = Auth::guard('api')->login($data);
 
             $res = new SuccessLoginResource($data, $token, 'Berhasil login');
+
+            return $this->respond($res);
+        } catch (Exception $e) {
+            return $this->exceptionError($e->getMessage());
+        }
+    }
+
+    public function logout()
+    {
+        try {
+            Auth::guard('api')->logout();
+
+            return $this->messageSuccess('Berhasil logout', 200);
+        } catch (Exception $e) {
+            return $this->exceptionError($e->getMessage());
+        }
+    }
+
+    public function refresh()
+    {
+        try {
+            $token = JWTAuth::getToken();
+
+            $data = new stdClass();
+            $data->token = JWTAuth::refresh($token);
+
+            $res = new SubmitAuthResource($data, 'Berhasil refresh token');
+
+            return $this->respond($res);
+        } catch (Exception $e) {
+            return $this->exceptionError($e->getMessage());
+        }
+    }
+
+    public function me()
+    {
+        try {
+            $data = Auth::guard('api')->user();
+
+            $res = new SuccessGetProfileResource($data, 'Berhasil mengambil data user');
 
             return $this->respond($res);
         } catch (Exception $e) {

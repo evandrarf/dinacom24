@@ -3,11 +3,11 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use JWTAuth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ApiBaseController;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException;
 use PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class JwtMiddleware extends ApiBaseController
 {
@@ -24,11 +24,11 @@ class JwtMiddleware extends ApiBaseController
             JWTAuth::parseToken()->authenticate();
         } catch (\Exception $e) {
             if ($e instanceof TokenInvalidException) {
-                return $this->exceptionError('Token is Invalid', 401);
+                return $this->exceptionError('Token tidak valid', 401);
             } elseif ($e instanceof TokenExpiredException) {
-                return $this->exceptionError('Token is Expired', 403);
+                return $this->exceptionError('Token kadaluarsa', 403);
             } else {
-                return $this->exceptionError('Authorization Token not found', 403);
+                return $this->exceptionError('Token authorisasi tidak ditemukan', 403);
             }
         }
 
