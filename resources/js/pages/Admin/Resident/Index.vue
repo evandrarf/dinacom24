@@ -23,7 +23,7 @@ import EditIcon from "@/components/icons/EditIcon.vue";
 import DropdownEditMenu from "@/components/DropdownEditMenu.vue";
 import TriangleExclamationIcon from "@/components/icons/TriangleExclamationIcon.vue";
 import Alert from "@/components/Alert.vue";
-import Filter from "@/components/Filter.vue";
+import Filter from "./Filter.vue";
 import EyeOpen from "@/components/icons/EyeOpenIcon.vue";
 import { Inertia } from "@inertiajs/inertia";
 
@@ -73,6 +73,7 @@ const getData = debounce(async (page = 1) => {
                 status: filter.value.status,
                 village_id: filter.value.village_id,
                 search: search.value,
+                eligibility_status: filter.value.eligibility_status,
             },
         })
         .then((res) => {
@@ -104,6 +105,7 @@ const applyFilter = (val) => {
     filter.value = {
         status: val.status,
         village_id: val.village_id,
+        eligibility_status: val.eligibility_status,
     };
     isLoading.value = true;
     getData(1);
@@ -134,10 +136,6 @@ const handleSelectData = (id, value) => {
 const handleChangePage = (page) => {
     isLoading.value = true;
     getData(page);
-};
-
-const openModalForm = () => {
-    modalFormOpen.value = true;
 };
 
 const handleCloseModalForm = () => {
@@ -287,7 +285,7 @@ onMounted(() => {
             <Filter
                 @apply="applyFilter"
                 @clear="clearFilter"
-                :additional="additional"
+                :additional="props.additional"
             />
         </div>
     </div>

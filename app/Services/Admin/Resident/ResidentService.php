@@ -12,6 +12,7 @@ class ResidentService
         $search = $request->search;
         $village_id = $request->village_id;
         $status = $request->status;
+        $eligibility_status = $request->eligibility_status;
 
         $query = Resident::query()->with(['village', 'familyCard', 'identityCard']);
 
@@ -31,7 +32,18 @@ class ResidentService
 
         $paginateCollection = new PaginateCollection();
 
-        $data = $paginateCollection->handle($query->get(), $per_page);
+        $records = $query->get();
+
+        $filteredRecords = $records;
+
+        if ($eligibility_status === 'eligible' || $eligibility_status === 'not_eligible') {
+            $filteredRecords = $records->filter(function ($resident) use ($eligibility_status) {
+                $result = $resident->calculateEligibilityStatus() ? 'eligible' : 'not_eligible';
+                return $result === $eligibility_status;
+            });
+        }
+
+        $data = $paginateCollection->handle($filteredRecords, $per_page);
 
         return $data;
     }

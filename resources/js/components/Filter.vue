@@ -6,29 +6,14 @@ import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
 import Select from "@/components/Select.vue";
 import FilterIcon from "@/components/icons/FilterIcon.vue";
 
-const filter = ref({
-    village_id: null,
-    status: "",
-});
-
-const props = defineProps({
-    additional: object().def({}),
-});
-
-const filterVillage = ref(null);
-const filterStatus = ref(null);
-
 const emit = defineEmits(["apply", "clear"]);
 
 const applyFilter = () => {
-    emit("apply", filter.value);
+    emit("apply");
 };
 
 const clearFilter = () => {
-    filter.value = ref({});
-    filterVillage.value.clearSelected();
-    filterStatus.value.clearSelected();
-    emit("clear", filter.value);
+    emit("clear");
 };
 </script>
 <template>
@@ -54,39 +39,7 @@ const clearFilter = () => {
             >
                 <div class="px-1 py-1">
                     <div class="grid grid-cols-2">
-                        <div
-                            class="font-medium group flex flex-col w-full justify-center rounded-md px-2 py-2 text-sm"
-                        >
-                            <span class="mb-4 text-primary"
-                                >Filter berdasar kelurahan/desa</span
-                            >
-                            <Select
-                                placeholder="Pilih kelurahan/desa"
-                                v-model="filter.village_id"
-                                :options="additional.villages"
-                                :clearable="false"
-                                class="w-full"
-                                ref="filterVillage"
-                            />
-                        </div>
-                        <div
-                            class="font-medium group flex flex-col w-full justify-center rounded-md px-2 py-2 text-sm"
-                        >
-                            <span class="mb-4 text-primary"
-                                >Filter berdasar status akun</span
-                            >
-                            <Select
-                                placeholder="Pilih status akun"
-                                v-model="filter.status"
-                                :options="{
-                                    active: 'Aktif',
-                                    inactive: 'Belum Aktif',
-                                }"
-                                :clearable="false"
-                                class="w-full"
-                                ref="filterStatus"
-                            />
-                        </div>
+                        <slot />
                         <div class="col-span-2 flex p-2 justify-end gap-4">
                             <button
                                 @click="clearFilter"
