@@ -6,12 +6,14 @@ import PieChartIcon from "@/components/icons/PieChartIcon.vue";
 import UsersIcon from "@/components/icons/UsersIcon.vue";
 import CityIcon from "@/components/icons/CityIcon.vue";
 import OfficerIcon from "@/components/icons/OfficerIcon.vue";
+import HoldingHandIcon from "@/components/icons/HoldingHandIcon.vue";
 
 const icons = {
     PieChartIcon,
     UsersIcon,
     CityIcon,
     OfficerIcon,
+    HoldingHandIcon,
 };
 
 const props = defineProps({

@@ -85,7 +85,7 @@ watch(
                     >
                         <slot name="progress" />
                     </div>
-                    <div class="px-5 py-4">
+                    <div class="px-5 py-4 overflow-y-auto max-h-96">
                         <slot name="content" />
                     </div>
                     <div class="px-5 py-3">

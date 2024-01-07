@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             VillageSeeder::class,
             ResidentSeeder::class,
+            SocialAssistanceSeeder::class,
+            SocialAssistanceRecipientSeeder::class,
             UserSeeder::class,
         ]);
     }

@@ -55,6 +55,15 @@ class PermissionSeeder extends Seeder
                             ],
                         ]
                     ],
+                    [
+                        'name' => 'social_assistance',
+                        'permission' => [
+                            [
+                                'name' => 'view_social_assistance',
+                                'label' => 'View Social Assistance',
+                            ],
+                        ]
+                    ]
 
                 ]
             ],

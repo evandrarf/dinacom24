@@ -4,6 +4,7 @@ namespace App\Services\Admin\Resident;
 
 use App\Actions\Utility\PaginateCollection;
 use App\Models\Resident;
+use App\Models\SocialAssistanceRecipient;
 
 class ResidentService
 {
@@ -13,6 +14,8 @@ class ResidentService
         $village_id = $request->village_id;
         $status = $request->status;
         $eligibility_status = $request->eligibility_status;
+        $sort_by = $request->sort_by;
+        $social_assistance_id = $request->social_assistance_id;
 
         $query = Resident::query()->with(['village', 'familyCard', 'identityCard']);
 
@@ -41,6 +44,15 @@ class ResidentService
                 $result = $resident->calculateEligibilityStatus() ? 'eligible' : 'not_eligible';
                 return $result === $eligibility_status;
             });
+        }
+
+        if ($sort_by === 'selected') {
+            $selectedResidentIds = SocialAssistanceRecipient::where('social_assistance_id', $social_assistance_id)->pluck('resident_id')->toArray();
+
+            $selected = $filteredRecords->whereIn('id', $selectedResidentIds);
+            $notSelected = $filteredRecords->whereNotIn('id', $selectedResidentIds);
+
+            $filteredRecords = $selected->merge($notSelected);
         }
 
         $data = $paginateCollection->handle($filteredRecords, $per_page);

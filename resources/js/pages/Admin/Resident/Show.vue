@@ -27,7 +27,7 @@ const dataMapping = {
     houseOwnership: {
         owned: "Pribadi",
         rented: "Sewa",
-        join: "Menumpan",
+        join: "Menumpang",
     },
     houseType: {
         semi_permanent: "Semi Permanen",

@@ -27,8 +27,27 @@ class UserSeeder extends Seeder
 
         $villages = Village::all()->pluck('id')->toArray();
 
-        User::factory()->count(count($villages))->create()->each(function ($user) {
+        $admins = [];
+
+        foreach ($villages as $village) {
+            $admins[] = [
+                'name' => 'Admin ' . Village::find($village)->name,
+                'email' => Str::slug(Village::find($village)->name) . '@test.com',
+                'email_verified_at' => now(),
+                'password' => Hash::make('rahasia123'),
+                'village_id' => $village,
+            ];
+        }
+
+        User::insert($admins);
+
+        $users = User::all();
+
+        foreach ($users as $user) {
+            if ($user->hasRole('Super Admin')) {
+                continue;
+            }
             $user->assignRole('Admin');
-        });
+        }
     }
 }

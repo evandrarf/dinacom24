@@ -53,6 +53,7 @@ class HandleInertiaRequests extends Middleware
                 ? $request->user()->only('id', 'name', 'email')
                 : null,
             'user_role' => auth()->check() ? auth()->user()->getRoleNames() : null,
+            'user_village' => auth()->check() && auth()->user()->village ? auth()->user()->village->only('name', 'id') : null,
             'modules' => $activeModules,
             'app_name' => config('app.name'),
         ]);

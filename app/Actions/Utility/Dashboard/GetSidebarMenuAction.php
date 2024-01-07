@@ -14,6 +14,12 @@ class GetSidebarMenuAction
                 'can'  => 'view_general_dashboard'
             ],
             [
+                'text' => 'Bantuan Sosial',
+                'url'  => route('admin.social-assistance.index'),
+                'icon' => 'HoldingHandIcon',
+                'can'  => ['view_general_dashboard', 'view_social_assistance']
+            ],
+            [
                 'text' => 'Warga',
                 'url'  => route('admin.resident.index'),
                 'icon' => 'UsersIcon',

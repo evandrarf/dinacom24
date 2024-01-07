@@ -9,6 +9,9 @@ import axios from "axios";
 import { notify } from "notiwind";
 import { object } from "vue-types";
 import { Link } from "@inertiajs/inertia-vue3";
+import dayjs from "dayjs";
+import "dayjs/locale/id";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 
 import AdminDashboardLayout from "@/layouts/AdminDashboardLayout.vue";
 import debounce from "@/composables/debounce";
@@ -25,6 +28,10 @@ import Alert from "@/components/Alert.vue";
 import Filter from "./Filter.vue";
 import EyeOpen from "@/components/icons/EyeOpenIcon.vue";
 import { Inertia } from "@inertiajs/inertia";
+import formatCurrency from "@/composables/formatCurrency.js";
+
+dayjs.locale("id");
+dayjs.extend(localizedFormat);
 
 const data = ref([]);
 const isLoading = ref(true);
@@ -38,7 +45,6 @@ const pagination = ref({
 });
 const selectedData = ref([]);
 const itemSelected = ref({});
-const updateAction = ref(false);
 const openAlert = ref(false);
 const openAlertMany = ref(false);
 const filter = ref({});
@@ -55,23 +61,22 @@ const props = defineProps({
 });
 
 const heads = [
-    "No. KK",
-    "NIK",
-    "Kepala Keluarga",
-    "Alamat",
-    "Kelayakan",
+    "Nama",
+    "Jumlah Bantuan Per Keluarga",
+    "Tanggal & Waktu",
+    "Total Bantuan",
+    "Total Penerima",
+    "Status",
     "Aksi",
 ];
 
 const getData = debounce(async (page = 1) => {
     axios
-        .get(route("admin.resident.get-data"), {
+        .get(route("admin.social-assistance.get-data"), {
             params: {
                 page: page,
                 status: filter.value.status,
-                village_id: filter.value.village_id,
                 search: search.value,
-                eligibility_status: filter.value.eligibility_status,
             },
         })
         .then((res) => {
@@ -102,8 +107,6 @@ const handleSearch = (value) => {
 const applyFilter = (val) => {
     filter.value = {
         status: val.status,
-        village_id: val.village_id,
-        eligibility_status: val.eligibility_status,
     };
     isLoading.value = true;
     getData(1);
@@ -137,25 +140,25 @@ const handleChangePage = (page) => {
 };
 
 const handleEdit = (val) => {
-    Inertia.visit(route("admin.resident.edit", val.id));
+    Inertia.visit(route("admin.social-assistance.edit", val.id));
 };
 
 const handleDetail = (val) => {
-    Inertia.visit(route("admin.resident.show", val.id));
+    Inertia.visit(route("admin.social-assistance.show", val.id));
 };
 
 const handleAlertDeleteMany = () => {
     openAlertMany.value = true;
-    alertData.headerLabel = "Menghapus data warga";
-    alertData.contentLabel = `Anda yakin ingin menghapus data warga terpilih?`;
+    alertData.headerLabel = "Menghapus data bantuan sosial";
+    alertData.contentLabel = `Anda yakin ingin menghapus data bantuan sosial terpilih?`;
     alertData.closeLabel = "Batal";
     alertData.submitLabel = "Hapus";
 };
 
 const handleAlertDelete = (data) => {
     openAlert.value = true;
-    alertData.headerLabel = "Menghapus data warga";
-    alertData.contentLabel = `Anda yakin ingin menghapus data warga ${data.family_card_number}?`;
+    alertData.headerLabel = "Menghapus data bantuan sosial";
+    alertData.contentLabel = `Anda yakin ingin menghapus data bantuan sosial ${data.family_card_number}?`;
     alertData.closeLabel = "Batal";
     alertData.submitLabel = "Hapus";
     itemSelected.value = { ...data };
@@ -171,7 +174,7 @@ const closeAlertMany = () => {
 
 const deleteManyData = () => {
     axios
-        .delete(route("admin.resident.destroy-many"), {
+        .delete(route("admin.social-assistance.destroy-many"), {
             data: {
                 ids: selectedData.value,
             },
@@ -207,7 +210,7 @@ const deleteManyData = () => {
 
 const deleteData = () => {
     axios
-        .delete(route("admin.resident.destroy", itemSelected.value.id))
+        .delete(route("admin.social-assistance.destroy", itemSelected.value.id))
         .then((res) => {
             notify(
                 {
@@ -243,9 +246,9 @@ onMounted(() => {
 </script>
 <template>
     <div class="w-full flex items-center justify-between">
-        <h1 class="text-2xl font-semibold">Daftar Warga</h1>
+        <h1 class="text-2xl font-semibold">Daftar Bantuan Sosial</h1>
         <Link
-            :href="route('admin.resident.create')"
+            :href="route('admin.social-assistance.create')"
             class="text-white text-sm bg-primary rounded-md px-4 py-2"
         >
             Tambah Data
@@ -255,7 +258,7 @@ onMounted(() => {
         <div class="w-1/3">
             <SearchInput
                 v-model="search"
-                placeholder="Cari nama warga"
+                placeholder="Cari nama bantuan sosial"
                 @update:modelValue="handleSearch"
             />
         </div>
@@ -312,26 +315,36 @@ onMounted(() => {
                     scope="row"
                     class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                 >
-                    {{ item.family_card_number }}
+                    {{ item.name }}
                 </th>
                 <td class="px-6 py-4">
-                    {{ item.head_of_family_nik }}
+                    Rp{{ formatCurrency(item.amount_per_kk) }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ item.head_of_family_name }}
+                    {{ dayjs(item.start_date).format("LL") }} -
+                    {{ dayjs(item.end_date).format("LL") }} ({{
+                        item.start_time
+                    }}
+                    - {{ item.end_time }})
                 </td>
                 <td class="px-6 py-4">
-                    {{ item.full_address }}
+                    Rp{{ formatCurrency(item.total_amount) }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ formatCurrency(item.recipient_count) }}
                 </td>
                 <td
                     class="px-6 py-4"
-                    :class="
-                        item.eligibility_status.toLowerCase() === 'layak'
-                            ? 'text-green-600'
-                            : 'text-red-600'
-                    "
+                    :class="{
+                        'text-green-600':
+                            item.status.toLowerCase() === 'active',
+                        'text-blue-600':
+                            item.status.toLowerCase() === 'finished',
+                        'text-yellow-600':
+                            item.status.toLowerCase() === 'draft',
+                    }"
                 >
-                    {{ item.eligibility_status }}
+                    {{ item.status }}
                 </td>
                 <td class="px-6 py-4">
                     <DropdownEditMenu
@@ -394,7 +407,6 @@ onMounted(() => {
             :pagination="pagination"
         />
     </div>
-
     <Alert
         :open-dialog="openAlert"
         @closeAlert="closeAlert"

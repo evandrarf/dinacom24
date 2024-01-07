@@ -61,14 +61,22 @@ class Resident extends Authenticatable implements JWTSubject
 
         $score = 0;
 
-        $ratio = $this->monthly_income / $this->dependent_count;
+        $dependent_count = $this->dependent_count - 1;
+
+        $ratio = $dependent_count > 0 ? $this->monthly_income / $dependent_count : $this->monthly_income;
 
         switch ($ratio) {
-            case  $ratio <= 1000000:
+            case $ratio <= 500000:
                 $score += $weight['ratio'] * 10;
                 break;
-            case $ratio <= 2000000:
+            case  $ratio <= 1000000:
                 $score += $weight['ratio'] * 8;
+                break;
+            case $ratio <= 1500000:
+                $score += $weight['ratio'] * 6;
+                break;
+            case $ratio <= 2000000:
+                $score += $weight['ratio'] * 5;
                 break;
             case $ratio <= 4000000:
                 $score += $weight['ratio'] * 4;
@@ -92,10 +100,10 @@ class Resident extends Authenticatable implements JWTSubject
                 $score += $weight['house_ownership'] * 1;
                 break;
             case 'join':
-                $score += $weight['house_ownership'] * 8;
+                $score += $weight['house_ownership'] * 5;
                 break;
             case 'rented':
-                $score += $weight['house_ownership'] * 10;
+                $score += $weight['house_ownership'] * 7;
                 break;
             default:
                 $score += $weight['house_ownership'] * 1;
@@ -127,7 +135,7 @@ class Resident extends Authenticatable implements JWTSubject
     {
         $score = $this->calculateEligibilityScore();
 
-        if ($score >= 5) {
+        if ($score >= 6) {
             return true;
         }
 
@@ -152,5 +160,10 @@ class Resident extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function social_assistance()
+    {
+        return $this->belongsToMany(SocialAssistance::class, 'social_assistance_residents', 'resident_id', 'social_assistance_id');
     }
 }
