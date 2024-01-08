@@ -164,20 +164,36 @@ onMounted(() => {
         <div class="grid grid-cols-2 gap-6">
             <div class="flex-col flex gap-4">
                 <h5 class="font-medium">Foto KK</h5>
-                <img
+                <a
+                    class="h-96"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    :href="data.family_card_file"
                     v-if="data.family_card_file"
-                    :src="data.family_card_file"
-                    alt="Kartu Keluarga"
-                />
+                >
+                    <img
+                        :src="data.family_card_file"
+                        alt="Kartu Keluarga"
+                        class="object-contain h-4/5"
+                    />
+                </a>
                 <p v-else>Belum Upload Foto KK</p>
             </div>
-            <div class="flex-col flex gap-4">
+            <div class="flex-col flex gap-4 h-96">
                 <h5 class="font-medium">Foto KTP</h5>
-                <img
+                <a
+                    class="h-96"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    :href="data.identity_card_file"
                     v-if="data.identity_card_file"
-                    :src="data.identity_card_file"
-                    alt="Kartu Tanda Penduduk"
-                />
+                >
+                    <img
+                        :src="data.identity_card_file"
+                        alt="Kartu Keluarga"
+                        class="object-contain h-4/5"
+                    />
+                </a>
                 <p v-else>Belum Upload Foto KTP</p>
             </div>
         </div>

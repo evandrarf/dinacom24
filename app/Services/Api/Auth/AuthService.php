@@ -5,6 +5,7 @@ namespace App\Services\Api\Auth;
 use App\Models\Resident;
 use App\Services\FileService;
 use Exception;
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 
@@ -103,6 +104,25 @@ class AuthService
         if (!password_verify($request->password, $resident->password)) {
             throw new Exception("Password salah");
         }
+
+        return $resident;
+    }
+
+    public function uploadFamilyCard($request)
+    {
+        $file = $request->file('file');
+
+        $fileService = new FileService();
+
+        $storedFile = $fileService->uploadFile($file, 'residents_family_card');
+
+        $user_id = auth('api')->user()->id;
+
+        $resident = Resident::where('id', $user_id)->first();
+
+        $resident->update([
+            'family_card_file_id' => $storedFile->id
+        ]);
 
         return $resident;
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
+use App\Http\Requests\Api\Auth\UploadFamilyCardRequest;
 use App\Http\Resources\Api\Auth\SubmitAuthResource;
 use App\Http\Resources\Api\Auth\SuccessGetProfileResource;
 use App\Http\Resources\Api\Auth\SuccessLoginResource;
@@ -154,6 +155,19 @@ class AuthController extends Controller
             $data = Auth::guard('api')->user();
 
             $res = new SuccessGetProfileResource($data, 'Berhasil mengambil data user');
+
+            return $this->respond($res);
+        } catch (Exception $e) {
+            return $this->exceptionError($e->getMessage());
+        }
+    }
+
+    public function uploadFamilyCard(UploadFamilyCardRequest $request)
+    {
+        try {
+            $data = $this->authService->uploadFamilyCard($request);
+
+            $res = new SuccessGetProfileResource($data, 'Berhasil mengupload foto kartu keluarga');
 
             return $this->respond($res);
         } catch (Exception $e) {

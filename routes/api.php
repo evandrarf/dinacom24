@@ -21,5 +21,7 @@ Route::prefix('v1')->group(function () {
         Route::post('login', 'login');
         Route::post('refresh', 'refresh');
         Route::get('me', 'me');
+        Route::post('change-password', 'changePassword');
+        Route::post('upload-family-card', 'uploadFamilyCard');
     });
 });
