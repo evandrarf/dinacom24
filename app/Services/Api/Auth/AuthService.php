@@ -17,7 +17,7 @@ class AuthService
 
         $resident = Resident::where('family_card_number', $username)->first();
 
-        if (!$resident) throw new Exception('No Kartu Keluarga tidak ditemukan');
+        if (!$resident) throw new Exception('No Kartu Keluarga tidak ditemukan', 404);
 
         return $resident;
     }
@@ -51,7 +51,7 @@ class AuthService
         }
 
         if ($response->nik !== $resident->head_of_family_nik) {
-            throw new Exception("Verifikasi gagal, NIK tidak sesuai");
+            throw new Exception("Verifikasi gagal, NIK tidak sesuai", 403);
         }
 
         $resident->update([
@@ -67,7 +67,7 @@ class AuthService
         $resident = Resident::where('family_card_number', $session->family_card_number)->first();
 
         if (!$resident) {
-            throw new Exception("No KK tidak ditemukan");
+            throw new Exception("No KK tidak ditemukan", 404);
         }
 
         if ($resident->status === 'inactive') {
@@ -90,7 +90,7 @@ class AuthService
         $resident = Resident::where('family_card_number', $session->family_card_number)->first();
 
         if (!$resident) {
-            throw new Exception("No KK tidak ditemukan");
+            throw new Exception("No KK tidak ditemukan", 404);
         }
 
         if ($resident->status === 'inactive') {
@@ -134,7 +134,7 @@ class AuthService
         $resident = Resident::where('id', $user_id)->first();
 
         if (!password_verify($request->old_password, $resident->password)) {
-            throw new Exception("Password lama salah");
+            throw new Exception("Password lama salah", 403);
         }
 
         $resident->update([
