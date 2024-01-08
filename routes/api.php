@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\SocialAssistance\SocialAssistanceController;
+use App\Models\SocialAssistance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +25,12 @@ Route::prefix('v1')->group(function () {
         Route::get('me', 'me');
         Route::put('change-password', 'changePassword');
         Route::post('upload-family-card', 'uploadFamilyCard');
+        Route::get('summary', 'summary');
+    });
+
+    Route::middleware(['JwtMiddleware'])->group(function () {
+        Route::controller(SocialAssistanceController::class)->prefix('social-assistance')->group(function () {
+            Route::get('/', 'getData');
+        });
     });
 });

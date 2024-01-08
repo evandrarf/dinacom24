@@ -101,7 +101,10 @@ class AuthController extends Controller
 
             $token = Auth::guard('api')->login($data);
 
-            $res = new SuccessLoginResource($data, $token, 'Berhasil mengatur password');
+            $data = new stdClass();
+            $data->token = $token;
+
+            $res = new SubmitAuthResource($data, 'Berhasil mengatur password');
 
             return $this->respond($res);
         } catch (Exception $e) {
@@ -116,7 +119,10 @@ class AuthController extends Controller
 
             $token = Auth::guard('api')->login($data);
 
-            $res = new SuccessLoginResource($data, $token, 'Berhasil login');
+            $data = new stdClass();
+            $data->token = $token;
+
+            $res = new SubmitAuthResource($data, 'Berhasil login');
 
             return $this->respond($res);
         } catch (Exception $e) {
@@ -183,6 +189,19 @@ class AuthController extends Controller
             $data = $this->authService->changePassword($request);
 
             $res = new SubmitAuthResource([], 'Berhasil mengubah password');
+
+            return $this->respond($res);
+        } catch (Exception $e) {
+            return $this->exceptionError($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function summary()
+    {
+        try {
+            $data = Auth::guard('api')->user();
+
+            $res = new SuccessGetProfileResource($data, 'Berhasil mengambil data summary');
 
             return $this->respond($res);
         } catch (Exception $e) {

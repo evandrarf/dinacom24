@@ -6,14 +6,13 @@ use App\Actions\Utility\GetFile;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SuccessLoginResource extends JsonResource
+class SuccessSummaryResource extends JsonResource
 {
-    private $message, $token;
-    public function __construct($resource, $token, $message)
+    private $message;
+    public function __construct($resource, $message)
     {
         parent::__construct($resource);
         $this->message = $message;
-        $this->token = $token;
         $this->resource = $resource;
     }
     /**
@@ -27,7 +26,6 @@ class SuccessLoginResource extends JsonResource
         $getFile = new GetFile();
         return [
             'data' => [
-                'token' => $this->token,
                 'user' => [
                     'id' => $this->resource->id,
                     'family_card_number' => $this->resource->family_card_number,

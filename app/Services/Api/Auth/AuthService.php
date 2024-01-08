@@ -102,7 +102,7 @@ class AuthService
         }
 
         if (!password_verify($request->password, $resident->password)) {
-            throw new Exception("Password salah");
+            throw new Exception("Password salah", 403);
         }
 
         return $resident;
