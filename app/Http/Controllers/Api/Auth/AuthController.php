@@ -44,7 +44,7 @@ class AuthController extends Controller
             else if ($session->next_step === 'set_password') return $this->setPassword($request, $session);
             else if ($session->next_step === 'verify_password') return $this->verifyPassword($request, $session);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -90,7 +90,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -105,7 +105,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -120,7 +120,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -131,7 +131,7 @@ class AuthController extends Controller
 
             return $this->messageSuccess('Berhasil logout', 200);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -147,7 +147,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -160,7 +160,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -173,7 +173,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 
@@ -186,7 +186,7 @@ class AuthController extends Controller
 
             return $this->respond($res);
         } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage());
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 }

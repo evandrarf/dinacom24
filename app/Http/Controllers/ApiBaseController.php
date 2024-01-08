@@ -8,6 +8,8 @@ class ApiBaseController extends Controller
 {
     public function exceptionError($exception, $status = 500)
     {
+        if ($status > 599) $status = 500;
+
         return response()->json([
             'meta' => [
                 "success" => false,
