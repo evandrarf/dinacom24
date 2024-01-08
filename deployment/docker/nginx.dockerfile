@@ -8,10 +8,10 @@ RUN usermod -u 1000 www-data
 RUN rm /etc/nginx/conf.d/default.conf
 
 # Copy your custom Nginx configuration
-COPY nginx/default.conf /etc/nginx/conf.d/
+COPY ./deployment/conf.d/nginx/default.conf /etc/nginx/conf.d/
 
 # Copy your web application files to the container
-COPY . /usr/share/nginx/html
+COPY . /var/www
 
 # Expose the port Nginx will run on
 EXPOSE 80
