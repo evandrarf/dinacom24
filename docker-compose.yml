@@ -2,7 +2,7 @@ version: "3"
 
 services:
     app:
-        build: .
+        build: ./deployment/docker/php.dockerfile
         restart: unless-stopped
         container_name: dinacom24-app-container
         volumes:
@@ -28,7 +28,7 @@ services:
             - app-network
 
     nginx:
-        image: nginx:latest
+        build: ./deployment/docker/nginx.dockerfile
         container_name: dinacom24-nginx-container
         restart: always
         ports:
