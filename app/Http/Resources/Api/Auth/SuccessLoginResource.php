@@ -35,7 +35,7 @@ class SuccessLoginResource extends JsonResource
                     'head_of_family_name' => $this->resource->head_of_family_name,
                     'eligibility_status' => $this->resource->calculateEligibilityStatus() ? 'Layak' : 'Tidak Layak',
                     'score' => $this->resource->calculateEligibilityScore(),
-                    'family_card_file' => $this->resource->family_card_file_id ? $this->resource->familyCard->file_path : null,
+                    'family_card_file' => $this->resource->family_card_file_id ? $getFile->handle($this->resource->family_card_file_id)->full_path : null,
                     'identity_card_file' => $this->resource->identity_card_file_id ? $getFile->handle($this->resource->identity_card_file_id)->full_path : null,
                     'full_address' => $this->resource->full_address
                 ]

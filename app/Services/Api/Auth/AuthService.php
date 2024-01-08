@@ -126,4 +126,21 @@ class AuthService
 
         return $resident;
     }
+
+    public function changePassword($request)
+    {
+        $user_id = auth('api')->user()->id;
+
+        $resident = Resident::where('id', $user_id)->first();
+
+        if (!password_verify($request->old_password, $resident->password)) {
+            throw new Exception("Password lama salah");
+        }
+
+        $resident->update([
+            'password' => bcrypt($request->new_password)
+        ]);
+
+        return $resident;
+    }
 }

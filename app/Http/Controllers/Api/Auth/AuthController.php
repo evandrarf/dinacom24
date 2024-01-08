@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Auth\ChangePasswordRequest;
 use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\Auth\UploadFamilyCardRequest;
 use App\Http\Resources\Api\Auth\SubmitAuthResource;
 use App\Http\Resources\Api\Auth\SuccessGetProfileResource;
 use App\Http\Resources\Api\Auth\SuccessLoginResource;
+use App\Http\Resources\Api\Auth\SuccessUploadFamilyCardResource;
 use App\Services\Api\Auth\AuthService;
 use Exception;
 use Firebase\JWT\JWT;
@@ -167,7 +169,20 @@ class AuthController extends Controller
         try {
             $data = $this->authService->uploadFamilyCard($request);
 
-            $res = new SuccessGetProfileResource($data, 'Berhasil mengupload foto kartu keluarga');
+            $res = new SuccessUploadFamilyCardResource($data, 'Berhasil mengupload foto kartu keluarga');
+
+            return $this->respond($res);
+        } catch (Exception $e) {
+            return $this->exceptionError($e->getMessage());
+        }
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+        try {
+            $data = $this->authService->changePassword($request);
+
+            $res = new SubmitAuthResource([], 'Berhasil mengubah password');
 
             return $this->respond($res);
         } catch (Exception $e) {
