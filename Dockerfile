@@ -32,13 +32,13 @@ RUN pecl install xdebug \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
+RUN groupadd -g 1000 www-data
+RUN useradd -u 1000 -ms /bin/bash -g www-data www-data
 
 # Copy application files and change ownership
-COPY --chown=www:www . /var/www/
-RUN chown -R www:www /var/www
-RUN chown -R www:www /var/www/storage
+COPY --chown=www-data:www-data . /var/www/
+RUN chown -R www-data:www-data /var/www
+RUN chown -R www-data:www-data /var/www/storage
 RUN chmod -R 777 /var/www/storage
 
 WORKDIR /var/www
@@ -47,7 +47,7 @@ RUN curl -sL https://deb.nodesource.com/setup_20.x | bash -
 
 RUN apt-get install nodejs -y
 
-USER www
+USER www-data
 
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
