@@ -44,7 +44,7 @@ class LoginRequest extends ApiBaseRequest
                 response()->json([
                     'meta' => [
                         "success" => false,
-                        'error' => "Token JWT telah kadaluarsa"
+                        'error' => "Sesi login telah kadaluarsa"
                     ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
@@ -53,7 +53,7 @@ class LoginRequest extends ApiBaseRequest
                 response()->json([
                     'meta' => [
                         "success" => false,
-                        'error' => "Token JWT tidak valid"
+                        'error' => "Sesi login tidak valid"
                     ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
@@ -63,7 +63,7 @@ class LoginRequest extends ApiBaseRequest
                 response()->json([
                     'meta' => [
                         "success" => false,
-                        'error' => "Terjadi kesalahan saat memproses token JWT"
+                        'error' => "Terjadi kesalahan saat memproses sesi login"
                     ]
                 ], JsonResponse::HTTP_UNPROCESSABLE_ENTITY)
             );
