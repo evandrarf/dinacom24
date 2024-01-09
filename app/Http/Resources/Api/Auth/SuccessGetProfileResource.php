@@ -40,6 +40,7 @@ class SuccessGetProfileResource extends JsonResource
                 'district' => $this->resource->district,
                 'city' => $this->resource->city,
                 'village_id' => $this->resource->village_id,
+                'village' => $this->resource->village->only('name'),
                 'province' => $this->resource->province,
                 'postal_code' => $this->resource->postal_code,
                 'phone_number' => $this->resource->phone_number,
