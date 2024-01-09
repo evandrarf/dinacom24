@@ -4,6 +4,14 @@ This is Backend Project for Dinacom 2024 Competition
 
 ### How to run
 
+#### Give execute permission
+
+```bash
+$ chmod +x build.sh
+```
+
+#### Run build script
+
 Make sure you have installed Docker on your computer
 
 ```bash
