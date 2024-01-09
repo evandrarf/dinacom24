@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\SocialAssistance;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SocialAssistance\CreateSocialAssistanceRequest;
 use App\Http\Requests\Admin\SocialAssistance\DestroyManySocialAssistanceRequest;
+use App\Http\Requests\Admin\SocialAssistance\UpdateSocialAssistanceRequest;
 use App\Http\Resources\Admin\BaseSubmitResource;
 use App\Http\Resources\Admin\SocialAssistance\SocialAssistanceDetailResource;
 use App\Http\Resources\Admin\SocialAssistance\SocialAssistanceListResource;
@@ -102,7 +103,7 @@ class SocialAssistanceController extends Controller
         }
     }
 
-    public function update(CreateSocialAssistanceRequest $request, $id)
+    public function update(UpdateSocialAssistanceRequest $request, $id)
     {
         DB::beginTransaction();
         try {

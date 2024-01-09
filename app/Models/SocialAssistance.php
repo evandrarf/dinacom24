@@ -13,7 +13,7 @@ class SocialAssistance extends Model
 
     protected $appends = [
         'recipient_count',
-        'total_amount'
+        'total_amount',
     ];
 
     public function recipients()

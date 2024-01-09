@@ -18,6 +18,11 @@ import ModalUserPicker from "./ModalUserPicker.vue";
 import formatCurrency from "@/composables/formatCurrency.js";
 import { Inertia } from "@inertiajs/inertia";
 
+const statusOptions = ref({
+    active: "Publikasikan",
+    draft: "Simpan (draft)",
+});
+
 const presetDates = ref([
     { label: "1 Hari", value: [new Date(), new Date()] },
 
@@ -89,6 +94,12 @@ const getData = () => {
                 new Date(form.value.start_datetime),
                 new Date(form.value.end_datetime),
             ];
+            if (form.value.status === "active") {
+                statusOptions.value = {
+                    ...statusOptions.value,
+                    finished: "Selesai",
+                };
+            }
         })
         .catch((error) => {
             notify(
@@ -186,11 +197,7 @@ onMounted(() => {
                 placeholder="Pilih Status Bantuan Sosial"
                 v-model="form.status"
                 :required="true"
-                :options="{
-                    active: 'Publikasikan',
-                    draft: 'Simpan (draft)',
-                    finished: 'Selesai',
-                }"
+                :options="statusOptions"
                 :clearable="false"
                 class="w-full"
             />

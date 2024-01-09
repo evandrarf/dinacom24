@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\SocialAssistance;
 
 use App\Http\Controllers\ApiBaseController;
+use App\Http\Resources\Api\SocialAssistance\SocialAssistanceListResource;
 use App\Services\Api\SocialAssistance\SocialAssistanceService;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,10 @@ class SocialAssistanceController extends ApiBaseController
     {
         try {
             $data = $this->socialAssistanceService->getData($request);
-            return $this->respond($data);
+
+            $res = new SocialAssistanceListResource($data, 'Sukses mendapatkan data bantuan sosial.');
+
+            return $this->respond($res);
         } catch (\Exception $e) {
             return $this->exceptionError($e);
         }
