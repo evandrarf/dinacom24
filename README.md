@@ -10,7 +10,7 @@ Make sure you have installed Docker on your computer
 $ ./build.sh
 ```
 
-For first deployment, run database seeder using command
+If you need to run database migration and seeder, run this command
 
 ```bash
 $ docker exec dinacom24-app-container php artisan migrate:fresh --seed
