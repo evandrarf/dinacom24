@@ -24,6 +24,11 @@ class SuccessGetProfileResource extends JsonResource
      */
     public function toArray($request)
     {
+        $house_ownership_mapping = [
+            'owned' => 'Milik Sendiri',
+            'rented' => 'Sewa',
+            'join' => 'Menumpang dengan orang lain'
+        ];
         $getFile = new GetFile();
         return [
             'data' => [
@@ -34,7 +39,7 @@ class SuccessGetProfileResource extends JsonResource
                 'eligibility_status' => $this->resource->calculateEligibilityStatus() ? 'Layak' : 'Tidak Layak',
                 'monthly_income' => $this->resource->monthly_income,
                 'dependent_count' => $this->resource->dependent_count,
-                'house_ownership' => $this->resource->house_ownership,
+                'house_ownership' => $house_ownership_mapping[$this->resource->house_ownership],
                 'rt' => $this->resource->rt,
                 'rw' => $this->resource->rw,
                 'district' => $this->resource->district,

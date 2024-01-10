@@ -195,17 +195,4 @@ class AuthController extends Controller
             return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
-
-    public function summary()
-    {
-        try {
-            $data = Auth::guard('api')->user();
-
-            $res = new SuccessGetProfileResource($data, 'Berhasil mengambil data summary');
-
-            return $this->respond($res);
-        } catch (Exception $e) {
-            return $this->exceptionError($e->getMessage(), $e->getCode());
-        }
-    }
 }
