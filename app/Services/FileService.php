@@ -29,6 +29,26 @@ class FileService
         return $data;
     }
 
+    public function storeFile($file, $path)
+    {
+        $fileName = time() . '-' . Str::random(60);
+        $extension = File::extension($file);
+        $size = round(File::size($file) / 1024);
+        $pathName = '/storage/file/' . $path . '/' . $fileName . '.' . $extension;
+
+        Storage::put('/public/file/' . $path . '/' . $fileName . '.' . $extension, File::get($file));
+
+        $data = FileModel::create([
+            'url' => config('app.file_upload_endpoint'),
+            'path_name' => $pathName,
+            'file_name' => $fileName,
+            'extension' => $extension,
+            'size' => $size
+        ]);
+
+        return $data;
+    }
+
     public function getFileById($id)
     {
         $file = FileModel::findOrFail($id);

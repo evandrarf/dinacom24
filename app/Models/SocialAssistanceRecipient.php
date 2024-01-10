@@ -12,4 +12,14 @@ class SocialAssistanceRecipient extends Model
     protected $guarded = ['id'];
 
     protected $table = 'social_assistance_recipients';
+
+    public function resident()
+    {
+        return $this->belongsTo(Resident::class);
+    }
+
+    public function socialAssistance()
+    {
+        return $this->belongsTo(SocialAssistance::class);
+    }
 }

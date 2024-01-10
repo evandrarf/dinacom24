@@ -2,10 +2,15 @@
 
 namespace App\Services\Admin\SocialAssistance;
 
+use App\Actions\Utility\GenerateQrCode;
 use App\Actions\Utility\PaginateCollection;
 use App\Models\Resident;
 use App\Models\SocialAssistance;
 use App\Models\SocialAssistanceRecipient;
+use App\Models\Ticket;
+use App\Services\FileService;
+use chillerlan\QRCode\QRCode;
+use Illuminate\Http\Testing\File;
 
 class SocialAssistanceService
 {
@@ -55,7 +60,7 @@ class SocialAssistanceService
 
 
         $this->generateSocialAssistanceRecipient($query->id, $data['resident_ids']);
-
+        $this->generateTicket($query->id);
 
         return $query;
     }
@@ -131,8 +136,44 @@ class SocialAssistanceService
         ]);
 
         $this->generateSocialAssistanceRecipient($query->id, $data['resident_ids']);
+        $this->generateTicket($query->id);
 
         return $query;
+    }
+
+    public function generateTicket($socialAssistanceId)
+    {
+        $socialAssistanceRecipientIds = SocialAssistanceRecipient::where('social_assistance_id', $socialAssistanceId)->pluck('id')->toArray();
+
+        $existing = Ticket::whereIn('social_assistance_recipient_id', $socialAssistanceRecipientIds)->get()->pluck('social_assistance_recipient_id')->toArray();
+
+        $socialAssistanceRecipientIds = array_filter($socialAssistanceRecipientIds, function ($item) use ($existing) {
+            return !in_array($item, $existing);
+        });
+
+        $data = [];
+
+        $socialAssisatnceRecipients = SocialAssistanceRecipient::whereIn('id', $socialAssistanceRecipientIds)->get();
+
+        foreach ($socialAssistanceRecipientIds as $socialAssistanceRecipientId) {
+            $ticketNumber = time() . rand(1000000, 9999999);
+
+            $generateQrCode = new GenerateQrCode();
+
+            $qrCode = $generateQrCode->handle($ticketNumber);
+
+            $data[] = [
+                'social_assistance_recipient_id' => $socialAssistanceRecipientId,
+                'ticket_number' => $ticketNumber,
+                'qr_code_file_id' => $qrCode->id,
+                'social_assistance_id' => $socialAssistanceId,
+                'resident_id' => $socialAssisatnceRecipients->where('id', $socialAssistanceRecipientId)->first()->resident_id,
+            ];
+        }
+
+        Ticket::insert($data);
+
+        return true;
     }
 
     public function destroy($id)

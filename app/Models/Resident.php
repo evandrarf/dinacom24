@@ -166,4 +166,9 @@ class Resident extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany(SocialAssistance::class, 'social_assistance_residents', 'resident_id', 'social_assistance_id');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'resident_id', 'id');
+    }
 }

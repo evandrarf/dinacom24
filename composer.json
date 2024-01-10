@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "chillerlan/php-qrcode": "^5.0",
         "firebase/php-jwt": "^6.10",
         "guzzlehttp/guzzle": "^7.2",
         "inertiajs/inertia-laravel": "^0.6.11",

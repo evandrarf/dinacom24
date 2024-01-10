@@ -11,7 +11,7 @@ class SocialAssistanceService
     {
         $status = $request->status;
 
-        $query = SocialAssistance::query()->with('recipients');
+        $query = SocialAssistance::query();
 
         $query->when(request('status'), function ($q) use ($status) {
             $status = strtolower($status);
@@ -25,7 +25,7 @@ class SocialAssistanceService
 
         $query->orderBy('start_date', 'asc');
 
-        $data = $query->get()->groupBy(function ($item) {
+        $data = $query->get()->except('recipients')->groupBy(function ($item) {
             return Carbon::parse($item->start_date)->format('Y-m');
         });
 
