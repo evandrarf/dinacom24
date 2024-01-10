@@ -125,7 +125,7 @@ class ResidentService
             'dependent_count' => $data['dependent_count'],
             'house_ownership' => $data['house_ownership'],
             'house_type' => $data['house_type'],
-            'status' => 'inactive',
+            'status' => $query->status,
             'password' => $data['password'] ?? $query->password,
         ]);
 
