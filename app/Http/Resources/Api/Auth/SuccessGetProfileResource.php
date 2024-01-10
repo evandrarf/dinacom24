@@ -29,6 +29,10 @@ class SuccessGetProfileResource extends JsonResource
             'rented' => 'Sewa',
             'join' => 'Menumpang dengan orang lain'
         ];
+        $house_type_mapping = [
+            'permanent' => 'Rumah Tetap',
+            'semi_permanent' => 'Rumah Semi Permanen',
+        ];
         $getFile = new GetFile();
         return [
             'data' => [
@@ -49,7 +53,7 @@ class SuccessGetProfileResource extends JsonResource
                 'province' => $this->resource->province,
                 'postal_code' => $this->resource->postal_code,
                 'phone_number' => $this->resource->phone_number,
-                'house_type' => $this->resource->house_type,
+                'house_type' => $house_type_mapping[$this->resource->house_type],
                 'status' => $this->resource->status,
                 'family_card_file' => $this->resource->family_card_file_id ? $getFile->handle($this->resource->family_card_file_id)->full_path : null,
                 'identity_card_file' => $this->resource->identity_card_file_id ? $getFile->handle($this->resource->identity_card_file_id)->full_path : null,
