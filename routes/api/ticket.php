@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\Auth\AuthController;
-use App\Http\Controllers\Api\SocialAssistance\SocialAssistanceController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\Ticket\TicketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(SocialAssistanceController::class)->prefix('social-assistance')->group(function () {
-    Route::get('/', 'getData');
+Route::controller(TicketController::class)->prefix('ticket')->group(function () {
+    Route::get('/{id}', 'show');
 });

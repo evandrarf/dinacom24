@@ -25,7 +25,7 @@ class SocialAssistanceController extends ApiBaseController
 
             return $this->respond($res);
         } catch (\Exception $e) {
-            return $this->exceptionError($e);
+            return $this->exceptionError($e->getMessage(), $e->getCode());
         }
     }
 }

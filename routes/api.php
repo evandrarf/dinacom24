@@ -28,8 +28,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::middleware(['JwtMiddleware'])->group(function () {
-        Route::controller(SocialAssistanceController::class)->prefix('social-assistance')->group(function () {
-            Route::get('/', 'getData');
-        });
+        require __DIR__ . '/api/social_assistance.php';
+        require __DIR__ . '/api/ticket.php';
     });
 });

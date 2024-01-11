@@ -13,17 +13,17 @@ class Ticket extends Model
 
     protected $table = 'tickets';
 
-    public function socialAssistanceRecipient()
+    public function social_assistance_recipient()
     {
         return $this->belongsTo(SocialAssistanceRecipient::class);
     }
 
-    public function qrCodeFile()
+    public function qr_code_file()
     {
         return $this->belongsTo(File::class, 'qr_code_file_id');
     }
 
-    public function socialAssistance()
+    public function social_assistance()
     {
         return $this->belongsTo(SocialAssistance::class);
     }
