@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     libreadline-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl imagick
+RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip intl
 
 # Install additional PHP extensions (customize based on your needs)
 # RUN docker-php-ext-install mysqli pdo_pgsql pdo_sqlite mcrypt
