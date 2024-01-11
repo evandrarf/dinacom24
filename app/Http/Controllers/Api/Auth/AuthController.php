@@ -24,7 +24,7 @@ class AuthController extends Controller
     private $authService;
     public function __construct(AuthService $authService)
     {
-        $this->middleware('JwtMiddleware', ['except' => ['login']]);
+        $this->middleware('JwtMiddleware', ['except' => ['login', 'refresh', 'logout']]);
         $this->authService = $authService;
     }
 
