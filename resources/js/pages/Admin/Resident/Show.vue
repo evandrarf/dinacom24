@@ -15,6 +15,7 @@ import Loading from "@/components/Loading.vue";
 import Empty from "@/components/icons/Empty.vue";
 import EditIcon from "@/components/icons/EditIcon.vue";
 import { Link } from "@inertiajs/inertia-vue3";
+import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps({
     id: integer().required,
@@ -62,14 +63,14 @@ onMounted(() => {
 <template>
     <div class="w-full flex items-center justify-between">
         <h1 class="text-2xl font-semibold">Detail Data Warga</h1>
-        <Link
-            :href="route('admin.resident.edit', props.id)"
+        <button
+            @click="Inertia.visit(route('admin.resident.edit', props.id))"
             :disabled="isLoading || Object.keys(data).length === 0"
             class="flex text-sm disabled:cursor-not-allowed disabled:border-gray-400 disabled:text-gray-500 items-center gap-3 border border-primary px-4 py-2 rounded text-primary"
         >
             <EditIcon />
             <span>Ubah Data</span>
-        </Link>
+        </button>
     </div>
     <div
         v-if="isLoading"

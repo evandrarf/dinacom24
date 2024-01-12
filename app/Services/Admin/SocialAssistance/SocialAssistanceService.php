@@ -4,11 +4,13 @@ namespace App\Services\Admin\SocialAssistance;
 
 use App\Actions\Utility\GenerateQrCode;
 use App\Actions\Utility\PaginateCollection;
+use App\Models\Notification;
 use App\Models\Resident;
 use App\Models\SocialAssistance;
 use App\Models\SocialAssistanceRecipient;
 use App\Models\Ticket;
 use App\Services\FileService;
+use Carbon\Carbon;
 use chillerlan\QRCode\QRCode;
 use Illuminate\Http\Testing\File;
 
@@ -61,6 +63,10 @@ class SocialAssistanceService
 
         $this->generateSocialAssistanceRecipient($query->id, $data['resident_ids']);
         $this->generateTicket($query->id);
+
+        if ($query->status == 'active') {
+            $this->generateNotification($query->id);
+        }
 
         return $query;
     }
@@ -138,6 +144,10 @@ class SocialAssistanceService
         $this->generateSocialAssistanceRecipient($query->id, $data['resident_ids']);
         $this->generateTicket($query->id);
 
+        if ($query->status == 'active') {
+            $this->generateNotification($query->id);
+        }
+
         return $query;
     }
 
@@ -172,6 +182,41 @@ class SocialAssistanceService
         }
 
         Ticket::insert($data);
+
+        return true;
+    }
+
+    public function generateNotification($socialAssistanceId)
+    {
+        Carbon::setLocale('id');
+
+        $socialAssistanceRecipientIds = SocialAssistanceRecipient::where('social_assistance_id', $socialAssistanceId)->pluck('id')->toArray();
+
+        $existing = Notification::where('type', 'info')->whereIn('social_assistance_recipient_id', $socialAssistanceRecipientIds)->get()->pluck('social_assistance_recipient_id')->toArray();
+
+        $socialAssistanceRecipientIds = array_filter($socialAssistanceRecipientIds, function ($item) use ($existing) {
+            return !in_array($item, $existing);
+        });
+
+        $data = [];
+
+        $socialAssistanceRecipients = SocialAssistanceRecipient::whereIn('id', $socialAssistanceRecipientIds)->with('resident', 'socialAssistance')->get();
+
+        $tickets = Ticket::whereIn('social_assistance_recipient_id', $socialAssistanceRecipientIds)->get();
+
+        foreach ($socialAssistanceRecipients as $socialAssistanceRecipient) {
+            $data[] = [
+                'title' => 'Anda Berhak Menerima Bantuan Sosial',
+                'body' => "Silahkan datang ke kantor kelurahan/desa " . $socialAssistanceRecipient->resident->village->name . " pada tanggal " . Carbon::parse($socialAssistanceRecipient->socialAssistance->start_date)->isoFormat('D MMMM Y') . " untuk menerima bantuan sosial",
+                'type' => 'info',
+                'data_id' => $tickets->where('social_assistance_recipient_id', $socialAssistanceRecipient->id)->first()->id,
+                'data_type' => 'ticket',
+                'social_assistance_recipient_id' => $socialAssistanceRecipient->id,
+                'resident_id' => $socialAssistanceRecipient->resident_id,
+            ];
+        }
+
+        Notification::insert($data);
 
         return true;
     }

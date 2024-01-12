@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignId('resident_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->string('ticket_number')->unique();
             $table->foreignId('qr_code_file_id')->constrained('files');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 

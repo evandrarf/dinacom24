@@ -47,6 +47,7 @@ const isLoading = ref(false);
 const date = ref([new Date(), new Date()]);
 const openDialog = ref(false);
 const selectedRecipient = ref([]);
+const getLoading = ref(true);
 
 const updateData = () => {
     isLoading.value = true;
@@ -110,6 +111,9 @@ const getData = () => {
                 },
                 2500
             );
+        })
+        .finally(() => {
+            getLoading.value = false;
         });
 };
 
@@ -139,6 +143,7 @@ onMounted(() => {
     </div>
     <div>
         <form
+            v-if="getLoading || Object.keys(form).length > 0"
             @submit.prevent="updateData"
             class="w-full rounded bg-white min-h-56 mt-8 grid grid-cols-2 gap-4 p-4 mb-16"
         >
@@ -231,8 +236,15 @@ onMounted(() => {
                 </button>
             </div>
         </form>
+        <div
+            v-else
+            class="w-full justify-center items-center font-medium text-2xl rounded bg-white min-h-56 mt-8 flex gap-4 p-4 mb-16"
+        >
+            <h2>Tidak ada data</h2>
+        </div>
     </div>
     <ModalUserPicker
+        v-if="Object.keys(form).length"
         @save="handleSaveRecipient"
         @close="handleCloseUserPicker"
         :modelValue="selectedRecipient"

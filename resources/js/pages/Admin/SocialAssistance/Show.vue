@@ -20,6 +20,7 @@ import Empty from "@/components/icons/Empty.vue";
 import EditIcon from "@/components/icons/EditIcon.vue";
 import DataTable from "@/components/DataTable.vue";
 import Pagination from "@/components/Pagination.vue";
+import { Inertia } from "@inertiajs/inertia";
 
 dayjs.locale("id");
 dayjs.extend(localizedFormat);
@@ -101,14 +102,16 @@ onMounted(() => {
 <template>
     <div class="w-full flex items-center justify-between">
         <h1 class="text-2xl font-semibold">Detail Data Bantuan Sosial</h1>
-        <Link
-            :href="route('admin.social-assistance.edit', props.id)"
+        <button
+            @click="
+                Inertia.visit(route('admin.social-assistance.edit', props.id))
+            "
             :disabled="isLoading || Object.keys(data).length === 0"
-            class="flex text-sm disabled:cursor-not-allowed disabled:border-gray-400 disabled:text-gray-500 items-center gap-3 border border-primary px-4 py-2 rounded text-primary"
+            class="flex text-sm disabled:cursor-not-allowed disabled:border-gray-400 disabled:text-gray-500 items-center gap-3 border px-4 py-2 rounded border-primary text-primary"
         >
             <EditIcon />
             <span>Ubah Data</span>
-        </Link>
+        </button>
     </div>
     <div
         v-if="isLoading"

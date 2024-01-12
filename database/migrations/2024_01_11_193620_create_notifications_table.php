@@ -11,10 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('social_assistance_recipients', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('social_assistance_id')->constrained('social_assistances')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('title');
+            $table->text('body');
+            $table->string('type');
+            $table->unsignedBigInteger('data_id');
+            $table->string('data_type');
             $table->foreignId('resident_id')->constrained('residents')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('social_assistance_recipient_id')->constrained('social_assistance_recipients')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -25,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('social_assistance_recipients');
+        Schema::dropIfExists('notifications');
     }
 };
