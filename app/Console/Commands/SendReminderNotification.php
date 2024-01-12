@@ -31,18 +31,25 @@ class SendReminderNotification extends Command
         // Get all recipient of social assistance
         $socialAssistances = SocialAssistance::where('start_date', "<=", now()->format("Y-m-d"))->where('status', 'active')->with('recipients')->get();
 
-        $recipients_ids = [];
-        $social_assistance_recipient_ids = [];
+        $recipients = [];
         foreach ($socialAssistances as $socialAssistance) {
             foreach ($socialAssistance->recipients as $recipient) {
-                $recipients_ids[] = $recipient->resident_id;
-                $social_assistance_recipient_ids[] = $recipient->id;
+                $recipients[] = [
+                    'social_assistance_recipient_id' => $recipient->id,
+                    'resident_id' => $recipient->resident_id,
+                ];
             }
         }
 
-        $existingNotification = Notification::where('type', 'reminder_start')->whereIn('resident_id', $recipients_ids)->whereIn('social_assistance_recipient_id', $social_assistance_recipient_ids)->get();
+        $existing = Notification::where('type', 'reminder_start')->select('social_assistance_recipient_id', 'resident_id')->get()->toArray();
 
-        $recipients = SocialAssistanceRecipient::whereNotIn('resident_id', $existingNotification->pluck('resident_id')->toArray())->whereIn('id', $social_assistance_recipient_ids)->with('ticket', 'resident')->get();
+        $recipients = array_filter($recipients, function ($item) use ($existing) {
+            return !in_array($item, $existing);
+        });
+
+        $social_assistance_recipient_ids = collect($recipients)->pluck('social_assistance_recipient_id')->toArray();
+
+        $recipients = SocialAssistanceRecipient::whereIn('id', $social_assistance_recipient_ids)->with('ticket', 'resident')->get();
 
         $data = [];
 
@@ -56,8 +63,6 @@ class SendReminderNotification extends Command
                 'resident_id' => $recipient->resident_id,
                 'social_assistance_recipient_id' => $recipient->id,
                 'social_assistance_id' => $recipient->social_assistance_id,
-                'created_at' => now(),
-                'updated_at' => now(),
             ];
         }
 

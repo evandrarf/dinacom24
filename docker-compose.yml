@@ -44,11 +44,12 @@ services:
             - app-network
         depends_on:
             - app
+
     cron:
         build:
             context: .
             dockerfile: ./deployment/docker/php.dockerfile
-        container_name: dinacom24-corn-container
+        container_name: dinacom24-cron-container
         volumes:
             - .:/var/www/
         depends_on:
