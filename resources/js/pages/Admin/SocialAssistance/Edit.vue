@@ -67,7 +67,6 @@ const updateData = () => {
                 },
                 2500
             );
-            form.value = {};
             Inertia.visit(route("admin.social-assistance.show", props.id));
         })
         .catch((error) => {
