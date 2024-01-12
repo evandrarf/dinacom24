@@ -29,7 +29,7 @@ class SendReminderNotification extends Command
     public function handle()
     {
         // Get all recipient of social assistance
-        $socialAssistances = SocialAssistance::where('start_date', now()->format("Y-m-d"))->where('status', 'active')->with('recipients')->get();
+        $socialAssistances = SocialAssistance::where('start_date', "<=", now()->format("Y-m-d"))->where('status', 'active')->with('recipients')->get();
 
         $recipients_ids = [];
         $social_assistance_recipient_ids = [];
