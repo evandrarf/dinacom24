@@ -64,7 +64,3 @@ docker exec dinacom24-app-container npm cache clean --force
 # Remove the node_modules directory
 echo "Removing the node_modules directory..."
 docker exec dinacom24-app-container rm -rf node_modules
-
-# Run scheduler
-echo "Running scheduler..."
-docker exec dinacom24-app-container php artisan schedule:work --no-interaction

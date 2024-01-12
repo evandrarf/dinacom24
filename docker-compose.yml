@@ -44,6 +44,19 @@ services:
             - app-network
         depends_on:
             - app
+    cron:
+        build:
+            context: .
+            dockerfile: ./deployment/docker/php.dockerfile
+        container_name: dinacom24-corn-container
+        volumes:
+            - .:/var/www/
+        depends_on:
+            - app
+        working_dir: /var/www/
+        entrypoint: ["php", "/var/www/artisan", "schedule:work"]
+        networks:
+            - app-network
 
 networks:
     app-network:
