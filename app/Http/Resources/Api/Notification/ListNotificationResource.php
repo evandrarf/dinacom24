@@ -13,7 +13,7 @@ class ListNotificationResource extends ResourceCollection
             'data' => $this->transformCollection($this->collection),
             'meta' => [
                 "success" => true,
-                "message" => "Sukses mendapatkan data user",
+                "message" => "Sukses mendapatkan data notifikasi.",
                 'pagination' => $this->metaData()
             ]
         ];
