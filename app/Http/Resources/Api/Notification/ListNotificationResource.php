@@ -45,7 +45,7 @@ class ListNotificationResource extends ResourceCollection
             "next_cursor" => $this->nextCursor() ? $this->nextCursor()->encode() : null,
             "per_page" => $this->perPage(),
             "links" => [
-                'next' =>  $this->nextPageUrl() . '&per_page=' . $this->perPage(),
+                'next' =>  $this->nextPageUrl() ? $this->nextPageUrl() . '&per_page=' . $this->perPage() : null,
             ],
         ];
     }
