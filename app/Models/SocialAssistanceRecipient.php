@@ -22,4 +22,9 @@ class SocialAssistanceRecipient extends Model
     {
         return $this->belongsTo(SocialAssistance::class);
     }
+
+    public function ticket()
+    {
+        return $this->hasOne(Ticket::class);
+    }
 }

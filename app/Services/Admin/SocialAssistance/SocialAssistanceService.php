@@ -148,6 +148,14 @@ class SocialAssistanceService
             $this->generateNotification($query->id);
         }
 
+        if ($query->status == 'draft') {
+            Notification::where('type', 'info')->where('social_assistance_id', $query->id)->delete();
+        }
+
+        if ($query->start_date > now()->format('Y-m-d') || $query->status === 'draft') {
+            Notification::where('type', 'reminder_start')->where('social_assistance_id', $query->id)->delete();
+        }
+
         return $query;
     }
 
@@ -212,6 +220,7 @@ class SocialAssistanceService
                 'data_id' => $tickets->where('social_assistance_recipient_id', $socialAssistanceRecipient->id)->first()->id,
                 'data_type' => 'ticket',
                 'social_assistance_recipient_id' => $socialAssistanceRecipient->id,
+                'social_assistance_id' => $socialAssistanceId,
                 'resident_id' => $socialAssistanceRecipient->resident_id,
             ];
         }
