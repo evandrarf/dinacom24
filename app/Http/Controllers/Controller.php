@@ -12,6 +12,8 @@ class Controller extends BaseController
 
     public function exceptionError($exception, $status = 400)
     {
+        if ((int)$status > 599 || (int)$status == 0) $status = 500;
+
         return response()->json([
             'meta' => [
                 "success" => false,

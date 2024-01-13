@@ -31,5 +31,6 @@ Route::prefix('v1')->group(function () {
         require __DIR__ . '/api/social_assistance.php';
         require __DIR__ . '/api/ticket.php';
         require __DIR__ . '/api/notification.php';
+        require __DIR__ . '/api/report.php';
     });
 });

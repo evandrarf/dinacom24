@@ -30,6 +30,7 @@
         "@vuepic/vue-datepicker": "^7.4.0",
         "dayjs": "^1.11.10",
         "notiwind": "^2.0.2",
+        "vue-qrcode-reader": "^5.5.1",
         "vue-types": "^5.1.1",
         "ziggy-js": "^1.8.1"
     }

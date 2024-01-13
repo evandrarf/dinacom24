@@ -34,6 +34,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         require __DIR__ . '/admin/dashboard.php';
         require __DIR__ . '/admin/resident.php';
         require __DIR__ . '/admin/social_assistance.php';
+        require __DIR__ . '/admin/absence.php';
 
         Route::middleware('role:Super Admin')->group(function () {
             require __DIR__ . '/admin/village.php';

@@ -7,6 +7,7 @@ import UsersIcon from "@/components/icons/UsersIcon.vue";
 import CityIcon from "@/components/icons/CityIcon.vue";
 import OfficerIcon from "@/components/icons/OfficerIcon.vue";
 import HoldingHandIcon from "@/components/icons/HoldingHandIcon.vue";
+import ClipboardCheckIcon from "@/components/icons/ClipboardCheckIcon.vue";
 
 const icons = {
     PieChartIcon,
@@ -14,6 +15,7 @@ const icons = {
     CityIcon,
     OfficerIcon,
     HoldingHandIcon,
+    ClipboardCheckIcon,
 };
 
 const props = defineProps({

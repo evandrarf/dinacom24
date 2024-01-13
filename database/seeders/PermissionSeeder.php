@@ -63,8 +63,16 @@ class PermissionSeeder extends Seeder
                                 'label' => 'View Social Assistance',
                             ],
                         ]
+                    ],
+                    [
+                        'name' => 'absence',
+                        'permission' => [
+                            [
+                                'name' => 'view_absence',
+                                'label' => 'View Absence',
+                            ],
+                        ]
                     ]
-
                 ]
             ],
             // Setting Systems

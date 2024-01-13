@@ -14,6 +14,12 @@ class GetSidebarMenuAction
                 'can'  => 'view_general_dashboard'
             ],
             [
+                'text' => 'Absen Bansos',
+                'url'  => route('admin.absence.index'),
+                'icon' => 'ClipboardCheckIcon',
+                'can'  => ['view_general_dashboard', 'view_absence']
+            ],
+            [
                 'text' => 'Bantuan Sosial',
                 'url'  => route('admin.social-assistance.index'),
                 'icon' => 'HoldingHandIcon',

@@ -112,13 +112,19 @@ class AuthService
     {
         $file = $request->file('file');
 
-        $fileService = new FileService();
-
-        $storedFile = $fileService->uploadFile($file, 'residents_family_card');
-
         $user_id = auth('api')->user()->id;
 
         $resident = Resident::where('id', $user_id)->first();
+
+        if ($resident->status === 'inactive') throw new Exception("Akun belum aktif, aktivasi diperlukan", 403);
+
+        if (!$resident->password) {
+            throw new Exception("Akun belum melakukan set password", 403);
+        }
+
+        $fileService = new FileService();
+
+        $storedFile = $fileService->uploadFile($file, 'residents_family_card');
 
         $resident->update([
             'family_card_file_id' => $storedFile->id
