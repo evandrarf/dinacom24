@@ -27,6 +27,7 @@ class ListNotificationResource extends ResourceCollection
             'body' => $data->body,
             'data_id' => $data->data_id,
             'data_type' => $data->data_type,
+            'is_read' => $data->is_read,
             'created_at' => $data->created_at,
         ];
     }

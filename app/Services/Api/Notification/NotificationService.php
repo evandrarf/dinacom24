@@ -21,4 +21,23 @@ class NotificationService
 
         return $data;
     }
+
+    public function read($request, $id)
+    {
+        $query = Notification::find($id);
+
+        if (!$query) {
+            throw new \Exception('Notifikasi tidak ditemukan.', 404);
+        }
+
+        if ($query->resident_id !== auth('api')->user()->id) {
+            throw new \Exception('Notifikasi tidak ditemukan.', 404);
+        }
+
+        $query->update([
+            'is_read' => true
+        ]);
+
+        return $query;
+    }
 }

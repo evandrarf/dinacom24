@@ -11,6 +11,10 @@ class Notification extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'is_read' => 'boolean',
+    ];
+
     public function resident()
     {
         return $this->belongsTo(Resident::class);

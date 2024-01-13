@@ -17,4 +17,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(NotificationController::class)->prefix('notification')->group(function () {
     Route::get('/', 'getData');
+    Route::post('/{id}/read', 'read');
 });

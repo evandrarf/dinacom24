@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('resident_id')->constrained('residents')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('social_assistance_recipient_id')->constrained('social_assistance_recipients')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreignId('social_assistance_id')->constrained('social_assistances')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->boolean('is_read')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
