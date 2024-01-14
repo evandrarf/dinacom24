@@ -11,7 +11,7 @@ class SocialAssistanceService
     {
         $status = $request->status;
 
-        $query = SocialAssistance::query();
+        $query = SocialAssistance::query()->whereNot('status', 'draft');
 
         $query->when(request('status'), function ($q) use ($status) {
             $status = strtolower($status);
