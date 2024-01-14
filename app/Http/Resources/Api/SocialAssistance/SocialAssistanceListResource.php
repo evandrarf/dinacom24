@@ -24,7 +24,7 @@ class SocialAssistanceListResource extends ResourceCollection
         Carbon::setLocale('id');
         return [
             'month' => Carbon::parse($key)->isoFormat('MMMM Y'),
-            'social_assistance' => $data
+            'social_assistances' => $data
         ];
     }
 
