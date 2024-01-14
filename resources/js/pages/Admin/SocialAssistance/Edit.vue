@@ -94,7 +94,10 @@ const getData = () => {
                 new Date(form.value.start_datetime),
                 new Date(form.value.end_datetime),
             ];
-            if (form.value.status === "active") {
+            if (
+                form.value.status === "active" ||
+                form.value.status === "finished"
+            ) {
                 statusOptions.value = {
                     ...statusOptions.value,
                     finished: "Selesai",

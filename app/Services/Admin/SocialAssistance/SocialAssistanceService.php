@@ -5,6 +5,7 @@ namespace App\Services\Admin\SocialAssistance;
 use App\Actions\Utility\GenerateQrCode;
 use App\Actions\Utility\PaginateCollection;
 use App\Models\Notification;
+use App\Models\Report;
 use App\Models\Resident;
 use App\Models\SocialAssistance;
 use App\Models\SocialAssistanceRecipient;
@@ -13,6 +14,7 @@ use App\Services\FileService;
 use Carbon\Carbon;
 use chillerlan\QRCode\QRCode;
 use Illuminate\Http\Testing\File;
+use Illuminate\Support\Facades\Artisan;
 
 class SocialAssistanceService
 {
@@ -149,7 +151,17 @@ class SocialAssistanceService
         }
 
         if ($query->status == 'draft') {
-            Notification::where('type', 'info')->where('social_assistance_id', $query->id)->delete();
+            Notification::where('social_assistance_id', $query->id)->delete();
+        }
+
+        if ($query->status !== 'finished') {
+            Report::where('social_assistance_id', $query->id)->where('taken_at', null)->delete();
+        }
+
+        if ($query->status === 'finished') {
+            Artisan::call('social-assistance:generate-report', [
+                'social_assistance_id' => $query->id,
+            ]);
         }
 
         if ($query->start_date > now()->format('Y-m-d') || $query->status === 'draft') {
