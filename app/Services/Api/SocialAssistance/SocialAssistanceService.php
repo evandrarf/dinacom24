@@ -16,8 +16,7 @@ class SocialAssistanceService
         $query->when(request('status'), function ($q) use ($status) {
             $status = strtolower($status);
             if ($status === 'ongoing') {
-                $q->where('start_date', '<=', now())
-                    ->where('end_date', '>=', now())->whereNot('status', 'finished');
+                $q->where('end_date', '>=', now())->whereNot('status', 'finished');
             } elseif ($status === 'finished') {
                 $q->where('end_date', '<', now())->orWhere('status', 'finished');
             }
