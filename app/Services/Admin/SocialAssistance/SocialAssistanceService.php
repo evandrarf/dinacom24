@@ -162,6 +162,9 @@ class SocialAssistanceService
             Artisan::call('social-assistance:generate-report', [
                 'social_assistance_id' => $query->id,
             ]);
+            Artisan::call('notification:send-finished-notification', [
+                'social_assistance_id' => $query->id,
+            ]);
         }
 
         if ($query->start_date > now()->format('Y-m-d') || $query->status === 'draft') {

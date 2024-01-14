@@ -34,6 +34,9 @@ class UpdateStatusAndGenerateReport extends Command
             $this->call('social-assistance:generate-report', [
                 'social_assistance_id' => $socialAssistance->id,
             ]);
+            $this->call('notification:send-finished-notification', [
+                'social_assistance_id' => $socialAssistance->id,
+            ]);
         }
     }
 }
