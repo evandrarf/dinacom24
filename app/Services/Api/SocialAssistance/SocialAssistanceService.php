@@ -17,12 +17,12 @@ class SocialAssistanceService
             $status = strtolower($status);
             if ($status === 'ongoing') {
                 $q->where('end_date', '>=', now())->whereNot('status', 'finished');
+                $q->orderBy('start_date', 'asc');
             } elseif ($status === 'finished') {
                 $q->where('end_date', '<', now())->orWhere('status', 'finished');
+                $q->orderBy('start_date', 'desc');
             }
         });
-
-        $query->orderBy('start_date', 'asc');
 
         $data = $query->get()->except('recipients')->groupBy(function ($item) {
             return Carbon::parse($item->start_date)->format('Y-m');
