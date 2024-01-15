@@ -3,14 +3,21 @@
 namespace App\Actions\Utility;
 
 use App\Services\FileService;
+use chillerlan\QRCode\Data\QRMatrix;
+use chillerlan\QRCode\Output\QRGdImagePNG;
+use chillerlan\QRCode\Output\QROutputInterface;
 use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 
 class GenerateQrCode
 {
     public function handle($text)
     {
         $fileService = new FileService();
-        $qrCode =  new QRCode();
+        $options = new QROptions;
+        $options->outputType = 'png';
+
+        $qrCode =  new QRCode($options);
 
         $folderPath = storage_path('app/tmp/');
 
@@ -18,7 +25,7 @@ class GenerateQrCode
             mkdir($folderPath, 0777, true);
         }
 
-        $tmpFileName = storage_path('app/tmp/' . $text . '.svg');
+        $tmpFileName = storage_path('app/tmp/' . $text . '.png');
 
         $qrCode->render($text, $tmpFileName);
 
