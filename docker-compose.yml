@@ -50,6 +50,7 @@ services:
             context: .
             dockerfile: ./deployment/docker/php.dockerfile
         container_name: dinacom24-cron-container
+        restart: always
         volumes:
             - .:/var/www/
         depends_on:
