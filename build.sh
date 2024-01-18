@@ -34,7 +34,7 @@ jwt_secret=$(grep -oP '^JWT_SECRET=(.*)$' .env |  grep -oP '(?<==).*')
 # Check if the JWT_SECRET is empty
 if [ -z "$jwt_secret" ]; then
     echo "JWT_SECRET is empty. Generating a new key..."
-    docker exec dinacom24-app-container php artisan jwt:secret -y
+    docker exec dinacom24-app-container php artisan jwt:secret -f
 
     # Optionally clear cached configuration
     if [ -f bootstrap/cache/config.php ]; then
