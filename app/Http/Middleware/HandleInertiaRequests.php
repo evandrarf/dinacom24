@@ -2,6 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Actions\Utility\Dashboard\GetSidebarMenuAction;
+use App\Helpers\Menu\Builder;
+use App\Helpers\Menu\ModuleAccess;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,8 +39,23 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        // Get Modules
+        $sidebarMenu = new GetSidebarMenuAction();
+        $modules = $sidebarMenu->handle();
+
+        $builderSidebar = new Builder([
+            new ModuleAccess(),
+        ]);
+        $activeModules = array_values($builderSidebar->transformItems($modules));
+
         return array_merge(parent::share($request), [
-            //
+            'user' => fn () => $request->user()
+                ? $request->user()->only('id', 'name', 'email')
+                : null,
+            'user_role' => auth()->check() ? auth()->user()->getRoleNames() : null,
+            'user_village' => auth()->check() && auth()->user()->village ? auth()->user()->village->only('name', 'id') : null,
+            'modules' => $activeModules,
+            'app_name' => config('app.name'),
         ]);
     }
 }

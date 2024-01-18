@@ -28,7 +28,51 @@ class PermissionSeeder extends Seeder
                             ]
                         ]
                     ],
-
+                    [
+                        'name' => 'resident',
+                        'permission' => [
+                            [
+                                'name' => 'view_resident',
+                                'label' => 'View Resident',
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'village',
+                        'permission' => [
+                            [
+                                'name' => 'view_village',
+                                'label' => 'View Village',
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'user_management',
+                        'permission' => [
+                            [
+                                'name' => 'view_user_management',
+                                'label' => 'View User Management',
+                            ],
+                        ]
+                    ],
+                    [
+                        'name' => 'social_assistance',
+                        'permission' => [
+                            [
+                                'name' => 'view_social_assistance',
+                                'label' => 'View Social Assistance',
+                            ],
+                        ]
+                    ],
+                    [
+                        'name' => 'absence',
+                        'permission' => [
+                            [
+                                'name' => 'view_absence',
+                                'label' => 'View Absence',
+                            ],
+                        ]
+                    ]
                 ]
             ],
             // Setting Systems

@@ -1,0 +1,6 @@
+vendor
+node_modules
+.data
+.git
+.dockerignore
+**/node_modules

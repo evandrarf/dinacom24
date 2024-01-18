@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\SocialAssistance\SocialAssistanceController;
+use App\Models\SocialAssistance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +17,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('v1')->group(function () {
+    Route::controller(AuthController::class)->prefix('auth')->group(function () {
+        Route::post('logout', 'logout');
+        Route::post('login', 'login');
+        Route::post('refresh', 'refresh');
+        Route::get('me', 'me');
+        Route::put('change-password', 'changePassword');
+        Route::post('upload-family-card', 'uploadFamilyCard');
+    });
+
+    Route::middleware(['JwtMiddleware'])->group(function () {
+        require __DIR__ . '/api/social_assistance.php';
+        require __DIR__ . '/api/ticket.php';
+        require __DIR__ . '/api/notification.php';
+        require __DIR__ . '/api/report.php';
+    });
 });

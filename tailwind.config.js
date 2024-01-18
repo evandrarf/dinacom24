@@ -6,7 +6,11 @@ export default {
         "./resources/**/*.vue",
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                primary: "#843BF0",
+            },
+        },
     },
-    plugins: [],
+    plugins: [require("tailwind-scrollbar")],
 };

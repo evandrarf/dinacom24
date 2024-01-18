@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-    font-family: "Poppins", "Arial", sans-serif;
+    font-family: "Inter", "Arial", sans-serif;
 }
 
 /* Chrome, Safari and Opera */
@@ -14,4 +14,28 @@ body {
 .no-scrollbar {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
+}
+
+/* Button */
+.btn,
+.btn-lg,
+.btn-sm,
+.btn-xs {
+    @apply font-medium text-sm inline-flex items-center justify-center border rounded leading-5 shadow-sm transition duration-150 ease-in-out;
+}
+
+.btn {
+    @apply px-3 py-2;
+}
+
+.btn-lg {
+    @apply px-4 py-3;
+}
+
+.btn-sm {
+    @apply px-2 py-1;
+}
+
+.btn-xs {
+    @apply px-2 py-0.5;
 }

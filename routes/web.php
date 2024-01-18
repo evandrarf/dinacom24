@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,5 +16,29 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Index');
+    return redirect(route('admin.dashboard.index'));
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return redirect(route('admin.dashboard'));
+    });
+
+    Route::controller(LoginController::class)->prefix('auth')->name('auth.')->group(function () {
+        Route::get('/login', 'showLoginForm')->name('login-form');
+        Route::post('/login', 'login')->name('login');
+        Route::post('/logout', 'logout')->name('logout')->middleware('auth');
+    });
+
+    Route::middleware('auth')->group(function () {
+        require __DIR__ . '/admin/dashboard.php';
+        require __DIR__ . '/admin/resident.php';
+        require __DIR__ . '/admin/social_assistance.php';
+        require __DIR__ . '/admin/absence.php';
+
+        Route::middleware('role:Super Admin')->group(function () {
+            require __DIR__ . '/admin/village.php';
+            require __DIR__ . '/admin/user.php';
+        });
+    });
 });
