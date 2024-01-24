@@ -93,7 +93,9 @@ class AbsenceService
             'social_assistance_id' => $report->social_assistance_id,
             'resident_id' => $report->resident_id,
             'social_assistance_recipient_id' => $report->ticket->social_assistance_recipient_id,
-            'type' => 'info'
+            'type' => 'info',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 
         return true;
