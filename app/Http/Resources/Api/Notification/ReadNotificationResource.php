@@ -32,7 +32,7 @@ class ReadNotificationResource extends JsonResource
                 'data_id' => $this->resource->data_id,
                 'data_type' => $this->resource->data_type,
                 'is_read' => $this->resource->is_read,
-                'created_at' => $this->resource->created_at,
+                'created_time' => $this->resource->created_time,
             ],
             'meta' => [
                 'success' => true,

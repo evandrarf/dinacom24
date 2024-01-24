@@ -47,7 +47,8 @@ class SendFinishedNotification extends Command
                 'type' => 'finished',
                 'resident_id' => $report->resident_id,
                 'social_assistance_id' => $report->social_assistance_id,
-                'social_assistance_recipient_id' => $report->ticket->social_assistance_recipient_id
+                'social_assistance_recipient_id' => $report->ticket->social_assistance_recipient_id,
+                'created_time' => now()->timestamp,
             ];
         }
 

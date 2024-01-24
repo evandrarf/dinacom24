@@ -63,6 +63,7 @@ class SendReminderNotification extends Command
                 'resident_id' => $recipient->resident_id,
                 'social_assistance_recipient_id' => $recipient->id,
                 'social_assistance_id' => $recipient->social_assistance_id,
+                'created_time' => now()->timestamp,
             ];
         }
 

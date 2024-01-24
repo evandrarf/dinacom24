@@ -94,8 +94,7 @@ class AbsenceService
             'resident_id' => $report->resident_id,
             'social_assistance_recipient_id' => $report->ticket->social_assistance_recipient_id,
             'type' => 'info',
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_time' => now()->timestamp,
         ]);
 
         return true;

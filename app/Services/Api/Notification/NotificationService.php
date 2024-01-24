@@ -13,7 +13,7 @@ class NotificationService
 
         $query->where('resident_id', auth('api')->user()->id);
 
-        $query->orderBy('created_at', 'desc');
+        $query->orderBy('created_time', 'desc');
 
         $per_page = $request->per_page ?? 15;
 
