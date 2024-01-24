@@ -19,7 +19,7 @@ class TicketService
             throw new \Exception('Tidak dapat menemukan data tiket', 404);
         }
 
-        if ($ticket->social_assistance->status !== 'active') {
+        if ($ticket->social_assistance->status === 'draft') {
             throw new \Exception('Tidak dapat menemukan data tiket', 404);
         }
 
