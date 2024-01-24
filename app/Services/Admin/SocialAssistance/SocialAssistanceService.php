@@ -237,6 +237,7 @@ class SocialAssistanceService
                 'social_assistance_recipient_id' => $socialAssistanceRecipient->id,
                 'social_assistance_id' => $socialAssistanceId,
                 'resident_id' => $socialAssistanceRecipient->resident_id,
+                'created_time' => now()->timestamp,
             ];
         }
 
