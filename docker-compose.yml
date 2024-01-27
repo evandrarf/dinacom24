@@ -5,6 +5,9 @@ services:
         build:
             context: .
             dockerfile: ./deployment/docker/php.dockerfile
+            args:
+                - HOST_UID=${UID}
+                - HOST_GID=${GID}
         restart: unless-stopped
         container_name: dinacom24-app-container
         volumes:
@@ -33,6 +36,9 @@ services:
         build:
             context: .
             dockerfile: ./deployment/docker/nginx.dockerfile
+            args:
+                - HOST_UID=${UID}
+                - HOST_GID=${GID}
         container_name: dinacom24-nginx-container
         restart: always
         ports:
@@ -49,6 +55,9 @@ services:
         build:
             context: .
             dockerfile: ./deployment/docker/php.dockerfile
+            args:
+                - HOST_UID=${UID}
+                - HOST_GID=${GID}
         container_name: dinacom24-cron-container
         restart: always
         volumes:
